@@ -2,22 +2,14 @@
 
 class Character 
 {
-    public $name;
-    public $health;
-    public $attack;
-    public $defense;
-    public $range;
-    public $role;
-
-    public function __construct($name, $role, $health, $attack, $defense, $range)
-    {
-        $this->name = $name;
-        $this->role = $role;
-        $this->health = $health;
-        $this->attack = $attack;
-        $this->defense = $defense;
-        $this->range = $range;
-    }
+    public function __construct(
+        public $name,
+        public $role,
+        public $health,
+        public $attack,
+        public $defense,
+        public $range
+    ) {}
 
     public function displayStats()
     {
