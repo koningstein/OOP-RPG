@@ -1,6 +1,6 @@
 <?php
 
-namespace Game\Characters;
+namespace Game;
 
 class Character 
 {

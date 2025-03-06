@@ -1,8 +1,6 @@
 <?php
 
-namespace Game\Combat;
-
-use Game\Characters\Character;
+namespace Game;
 
 class Battle 
 {

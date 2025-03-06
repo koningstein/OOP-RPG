@@ -1,9 +1,9 @@
 <?php
 
-require_once 'autoload.php';
+require_once 'vendor/autoload.php';
 
-use Game\Characters\Character;
-use Game\Combat\Battle;
+use Game\Character;
+use Game\Battle;
 
 // Mage met standaard defense en range
 $eldrin = new Character(
