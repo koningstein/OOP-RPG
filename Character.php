@@ -9,6 +9,16 @@ class Character
     public $range;
     public $role;
 
+    public function __construct($name, $role, $health, $attack, $defense, $range)
+    {
+        $this->name = $name;
+        $this->role = $role;
+        $this->health = $health;
+        $this->attack = $attack;
+        $this->defense = $defense;
+        $this->range = $range;
+    }
+
     public function displayStats()
     {
         return "Character Stats:\n" .
