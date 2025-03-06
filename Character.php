@@ -20,4 +20,13 @@ class Character
                "Defense: " . $this->defense . "\n" .
                "Range: " . $this->range . "\n";
     }
+
+    public function setHealth($newHealth)
+    {
+        if ($newHealth < 0) {
+            return "Error: Health cannot be set to a negative value";
+        }
+        $this->health = $newHealth;
+        return "Health set to: " . $this->health;
+    }
 } 
