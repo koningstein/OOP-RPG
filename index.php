@@ -2,19 +2,38 @@
 
 require_once 'Character.php';
 
-$hero = new Character("Eldrin", "Mage", 100, 15, 10, 2);
+// Mage met standaard defense en range
+$eldrin = new Character(
+    name: "Eldrin",
+    role: "Mage",
+    health: 100,
+    attack: 15
+);
+
+// Warrior met aangepaste defense
+$thorgrim = new Character(
+    name: "Thorgrim",
+    role: "Warrior",
+    health: 120,
+    attack: 12,
+    defense: 10
+);
 
 echo "<pre>";
-echo $hero->displayStats();
+echo "Eldrin (met standaard defense en range):\n";
+echo $eldrin->displayStats();
+
+echo "\nThorgrim (met aangepaste defense):\n";
+echo $thorgrim->displayStats();
 
 // Test setHealth met verschillende waarden
 echo "\nTest setHealth methode:\n";
-echo "Setting health to 50: " . $hero->setHealth(50) . "\n";
-echo "Setting health to -30: " . $hero->setHealth(-30) . "\n";
+echo "Setting health to 50: " . $eldrin->setHealth(50) . "\n";
+echo "Setting health to -30: " . $eldrin->setHealth(-30) . "\n";
 
 // Test getAttack methode
 echo "\nTest getAttack methode:\n";
-echo "Attack value: " . $hero->getAttack() . "\n";
+echo "Attack value: " . $eldrin->getAttack() . "\n";
 
 echo "\nFinal stats:\n";
-echo $hero->displayStats(); 
+echo $eldrin->displayStats(); 

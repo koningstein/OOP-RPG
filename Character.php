@@ -7,8 +7,8 @@ class Character
         public $role,
         public $health,
         public $attack,
-        public $defense,
-        public $range
+        public $defense = 5,
+        public $range = 1
     ) {}
 
     public function displayStats()
