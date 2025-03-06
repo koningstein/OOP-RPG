@@ -1,0 +1,16 @@
+{
+    "name": "game/rpggame",
+    "description": "Een RPG-Game met oop php",
+    "autoload": {
+        "psr-4": {
+            "Game\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "koningstein",
+            "email": "38209467+koningstein@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
