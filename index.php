@@ -2,6 +2,9 @@
 
 require_once 'autoload.php';
 
+use Game\Characters\Character;
+use Game\Combat\Battle;
+
 // Mage met standaard defense en range
 $eldrin = new Character(
     name: "Eldrin",
@@ -20,10 +23,13 @@ $thorgrim = new Character(
 );
 
 echo "<pre>";
-echo "Eldrin (met standaard defense en range):\n";
-echo $eldrin->displayStats();
+// Start een gevecht
+$battle = new Battle();
+echo $battle->startFight($eldrin, $thorgrim);
 
-echo "\nThorgrim (met aangepaste defense):\n";
+echo "\n\nFinal stats:\n";
+echo $eldrin->displayStats();
+echo "\n";
 echo $thorgrim->displayStats();
 
 // Test setHealth met verschillende waarden

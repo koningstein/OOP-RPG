@@ -1,5 +1,7 @@
 <?php
 
+namespace Game\Characters;
+
 class Character 
 {
     public function __construct(
