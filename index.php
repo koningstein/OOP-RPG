@@ -17,5 +17,10 @@ echo $hero->displayStats();
 echo "\nTest setHealth methode:\n";
 echo "Setting health to 50: " . $hero->setHealth(50) . "\n";
 echo "Setting health to -30: " . $hero->setHealth(-30) . "\n";
+
+// Test getAttack methode
+echo "\nTest getAttack methode:\n";
+echo "Attack value: " . $hero->getAttack() . "\n";
+
 echo "\nFinal stats:\n";
 echo $hero->displayStats(); 

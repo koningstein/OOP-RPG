@@ -29,4 +29,9 @@ class Character
         $this->health = $newHealth;
         return "Health set to: " . $this->health;
     }
+
+    public function getAttack()
+    {
+        return $this->attack;
+    }
 } 
