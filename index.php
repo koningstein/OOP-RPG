@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Character.php';
+require_once 'autoload.php';
 
 // Mage met standaard defense en range
 $eldrin = new Character(
