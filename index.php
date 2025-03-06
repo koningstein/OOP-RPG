@@ -11,4 +11,4 @@ $hero->range = 2;
 $hero->role = "Mage";
 
 echo "<pre>";
-var_dump($hero); 
+echo $hero->displayStats(); 
