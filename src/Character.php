@@ -9,27 +9,27 @@ class Character
 {
     /**
      * Creates a new character with the given attributes
-     * @param $name
-     * @param $role
-     * @param $health
-     * @param $attack
-     * @param $defense
-     * @param $range
+     * @param string $name
+     * @param string $role
+     * @param int $health
+     * @param int $attack
+     * @param int $defense
+     * @param int $range
      */
     public function __construct(
-        public $name,
-        public $role,
-        public $health,
-        public $attack,
-        public $defense = 5,
-        public $range = 1
+        public string $name,
+        public string $role,
+        public int $health,
+        public int $attack,
+        public int $defense = 5,
+        public int $range = 1
     ) {}
 
     /**
      * Displays all stats of the character
      * @return string
      */
-    public function displayStats()
+    public function displayStats(): string
     {
         return "Character Stats:\n" .
                "---------------\n" .
@@ -43,10 +43,10 @@ class Character
 
     /**
      * Sets a new health value for the character
-     * @param $newHealth
+     * @param int $newHealth
      * @return string
      */
-    public function setHealth($newHealth)
+    public function setHealth(int $newHealth): string
     {
         if ($newHealth < 0) {
             return "Error: Health cannot be set to a negative value";
@@ -57,9 +57,9 @@ class Character
 
     /**
      * Gets the attack value of the character
-     * @return mixed
+     * @return int
      */
-    public function getAttack()
+    public function getAttack(): int
     {
         return $this->attack;
     }
@@ -68,8 +68,21 @@ class Character
      * Returns a brief summary of the character
      * @return string
      */
-    public function getSummary()
+    public function getSummary(): string
     {
         return $this->name . " is a " . $this->role . " with " . $this->health . " health";
+    }
+
+    /**
+     * Reduces the character's health by the specified amount
+     * @param int $amount
+     */
+    public function takeDamage(int $amount): void
+    {
+        if ($amount < $this->health) {
+            $this->health -= $amount;
+        } else {
+            $this->health = 0;
+        }
     }
 } 

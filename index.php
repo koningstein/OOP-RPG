@@ -44,3 +44,12 @@ echo "Attack value: " . $eldrin->getAttack() . "\n";
 echo "\nFinal stats:\n";
 echo $eldrin->displayStats();
 echo "Opdr 14: ".$eldrin->getSummary();
+
+
+// Test takeDamage method
+echo "\nOpdr 15 - Test takeDamage method:\n";
+echo "Initial health: " . $eldrin->health . "\n";
+$eldrin->takeDamage(20);
+echo "After 20 damage: " . $eldrin->health . "\n";
+$eldrin->takeDamage(40);
+echo "After 40 more damage: " . $eldrin->health . "\n";
