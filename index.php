@@ -42,4 +42,5 @@ echo "\nTest getAttack methode:\n";
 echo "Attack value: " . $eldrin->getAttack() . "\n";
 
 echo "\nFinal stats:\n";
-echo $eldrin->displayStats(); 
+echo $eldrin->displayStats();
+echo "Opdr 14: ".$eldrin->getSummary();

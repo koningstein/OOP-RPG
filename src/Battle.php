@@ -2,9 +2,18 @@
 
 namespace Game;
 
+/**
+ * Battle class manages fights between two characters
+ */
 class Battle 
 {
-    public function startFight(Character $fighter1, Character $fighter2)
+    /**
+     * Starts and manages a fight between two characters
+     * @param $fighter1
+     * @param $fighter2
+     * @return string
+     */
+    public function startFight($fighter1, $fighter2)
     {
         $round = 1;
         $battleLog = "Battle Start!\n";
