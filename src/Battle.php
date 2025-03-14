@@ -7,6 +7,19 @@ namespace Game;
  */
 class Battle 
 {
+    public string $battleLog;
+    public int $maxRounds = 10;
+    public int $roundNumber = 1;
+
+    /**
+     * @param int $maxRounds
+     * @return void
+     */
+    public function changeMaxRounds(int $maxRounds): void
+    {
+        $this->maxRounds = $maxRounds;
+    }
+
     /**
      * Starts and manages a fight between two characters
      * @param $fighter1
@@ -15,37 +28,41 @@ class Battle
      */
     public function startFight($fighter1, $fighter2)
     {
-        $round = 1;
-        $battleLog = "Battle Start!\n";
+        //$battleLog = "Battle Start!\n";
+        $this->roundNumber = 1;
+        $this->battleLog = "Battle Start!\n";
 
-        while ($fighter1->health > 0 && $fighter2->health > 0) {
-            $battleLog .= "\nRound " . $round . ":\n";
+        while (($fighter1->health > 0 && $fighter2->health > 0) && ($this->roundNumber <= $this->maxRounds)) {
+            $this->battleLog .= "\nRound " . $this->roundNumber . ":\n";
             
             // Fighter 1's turn
             $damage = max(0, $fighter1->attack - $fighter2->defense);
             $fighter2->health -= $damage;
-            $battleLog .= $fighter1->name . " hits " . $fighter2->name . " for " . $damage . " damage!\n";
-            $battleLog .= $fighter2->name . " has " . $fighter2->health . " health remaining.\n";
+            $this->battleLog .= $fighter1->name . " hits " . $fighter2->name . " for " . $damage . " damage!\n";
+            $this->battleLog .= $fighter2->name . " has " . $fighter2->health . " health remaining.\n";
 
             if ($fighter2->health <= 0) {
-                $battleLog .= "\n" . $fighter1->name . " wins the battle!";
-                return $battleLog;
+                $this->battleLog .= "\n" . $fighter1->name . " wins the battle!";
+                return $this->battleLog;
             }
 
             // Fighter 2's turn
             $damage = max(0, $fighter2->attack - $fighter1->defense);
             $fighter1->health -= $damage;
-            $battleLog .= $fighter2->name . " hits " . $fighter1->name . " for " . $damage . " damage!\n";
-            $battleLog .= $fighter1->name . " has " . $fighter1->health . " health remaining.\n";
+            $this->battleLog .= $fighter2->name . " hits " . $fighter1->name . " for " . $damage . " damage!\n";
+            $this->battleLog .= $fighter1->name . " has " . $fighter1->health . " health remaining.\n";
 
             if ($fighter1->health <= 0) {
-                $battleLog .= "\n" . $fighter2->name . " wins the battle!";
-                return $battleLog;
+                $this->battleLog .= "\n" . $fighter2->name . " wins the battle!";
+                return $this->battleLog;
             }
 
-            $round++;
+            $this->roundNumber++;
         }
 
-        return $battleLog;
+        // Maximum rounds reached without a winner
+        $this->battleLog .= "\nMaximum rounds (" . $this->maxRounds . ") reached! It's a draw!";
+
+        return $this->battleLog;
     }
 } 
