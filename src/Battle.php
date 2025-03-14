@@ -36,7 +36,7 @@ class Battle
             $this->battleLog .= "\nRound " . $this->roundNumber . ":\n";
             
             // Fighter 1's turn
-            $damage = max(0, $fighter1->getAttack() - $fighter2->getDefense());
+            $damage = $this->calculateDamage($fighter1, $fighter2);
             $fighter2->takeDamage($damage);
             $this->battleLog .= $fighter1->getName() . " hits " . $fighter2->getName() . " for " . $damage . " damage!\n";
             $this->battleLog .= $fighter2->getName() . " has " . $fighter2->getHealth() . " health remaining.\n";
@@ -47,7 +47,7 @@ class Battle
             }
 
             // Fighter 2's turn
-            $damage = max(0, $fighter2->getAttack() - $fighter1->getDefense());
+            $damage = $this->calculateDamage($fighter2, $fighter1);
             $fighter1->takeDamage($damage);
             $this->battleLog .= $fighter2->getName() . " hits " . $fighter1->getName() . " for " . $damage . " damage!\n";
             $this->battleLog .= $fighter1->getName() . " has " . $fighter1->getHealth() . " health remaining.\n";
@@ -88,5 +88,14 @@ class Battle
     public function getRoundNumber(): int
     {
         return $this->roundNumber;
+    }
+
+    private function calculateDamage(Character $attacker, Character $defender): int
+    {
+        $randomFactor = rand(70, 100) / 100;
+        $attackValue = $attacker->getAttack() * $randomFactor;
+        $damageWithFactor = $attackValue - $defender->getDefense();
+
+        return max(0, (int)round($damageWithFactor));
     }
 } 
