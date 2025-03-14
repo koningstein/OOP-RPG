@@ -23,6 +23,33 @@ $thorgrim = new Character(
 );
 
 echo "<pre>";
+
+$eldrin->inventory->addItem("Potion");
+$eldrin->inventory->addItem("Magic Staff");
+$thorgrim->inventory->addItem("Axe");
+$thorgrim->inventory->addItem("Shield");
+
+echo "Full inventory:\n";
+foreach ($eldrin->inventory->getItems() as $item) {
+    echo $eldrin->name . " has a " . $item . "\n";
+}
+
+foreach ($thorgrim->inventory->getItems() as $item) {
+    echo $thorgrim->name . " has a " . $item . "\n";
+}
+
+$eldrin->inventory->removeItem("Potion");
+$thorgrim->inventory->removeItem("Shield");
+
+echo "\nInventory after removing items:\n";
+foreach ($eldrin->inventory->getItems() as $item) {
+    echo $eldrin->name . " has a " . $item . "\n";
+}
+
+foreach ($thorgrim->inventory->getItems() as $item) {
+    echo $thorgrim->name . " has a " . $item . "\n";
+}
+echo "<br>";
 // Start een gevecht
 $battle = new Battle();
 $battle->changeMaxRounds(5);

@@ -7,6 +7,8 @@ namespace Game;
  */
 class Character 
 {
+    public Inventory $inventory;
+
     /**
      * Creates a new character with the given attributes
      * @param string $name
@@ -23,7 +25,9 @@ class Character
         public int $attack,
         public int $defense = 5,
         public int $range = 1
-    ) {}
+    ) {
+        $this->inventory = new Inventory();
+    }
 
     /**
      * Displays all stats of the character
