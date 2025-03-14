@@ -7,7 +7,7 @@ namespace Game;
  */
 class Character 
 {
-    public Inventory $inventory;
+    private Inventory $inventory;
 
     /**
      * Creates a new character with the given attributes
@@ -19,12 +19,12 @@ class Character
      * @param int $range
      */
     public function __construct(
-        public string $name,
-        public string $role,
-        public int $health,
-        public int $attack,
-        public int $defense = 5,
-        public int $range = 1
+        private string $name,
+        private string $role,
+        private int $health,
+        private int $attack,
+        private int $defense = 5,
+        private int $range = 1
     ) {
         $this->inventory = new Inventory();
     }
@@ -35,8 +35,7 @@ class Character
      */
     public function displayStats(): string
     {
-        return "Character Stats:\n" .
-               "---------------\n" .
+        return "<h3>Character Stats:</h3>" .
                "Name: " . $this->name . "\n" .
                "Role: " . $this->role . "\n" .
                "Health: " . $this->health . "\n" .
@@ -88,5 +87,53 @@ class Character
         } else {
             $this->health = 0;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHealth(): int
+    {
+        return $this->health;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefense(): int
+    {
+        return $this->defense;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRange(): int
+    {
+        return $this->range;
+    }
+
+    /**
+     * @return Inventory
+     */
+    public function getInventory(): Inventory
+    {
+        return $this->inventory;
     }
 } 

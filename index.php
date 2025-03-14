@@ -23,31 +23,34 @@ $thorgrim = new Character(
 );
 
 echo "<pre>";
+echo $eldrin->displayStats();
+echo $thorgrim->displayStats();
+echo "<br>";
 
-$eldrin->inventory->addItem("Potion");
-$eldrin->inventory->addItem("Magic Staff");
-$thorgrim->inventory->addItem("Axe");
-$thorgrim->inventory->addItem("Shield");
+$eldrin->getInventory()->addItem("Potion");
+$eldrin->getInventory()->addItem("Magic Staff");
+$thorgrim->getInventory()->addItem("Axe");
+$thorgrim->getInventory()->addItem("Shield");
 
-echo "Full inventory:\n";
-foreach ($eldrin->inventory->getItems() as $item) {
-    echo $eldrin->name . " has a " . $item . "\n";
+echo "<h3>Full inventory:</h3>";
+foreach ($eldrin->getInventory()->getItems() as $item) {
+    echo $eldrin->getName() . " has a " . $item . "\n";
 }
 
-foreach ($thorgrim->inventory->getItems() as $item) {
-    echo $thorgrim->name . " has a " . $item . "\n";
+foreach ($thorgrim->getInventory()->getItems() as $item) {
+    echo $thorgrim->getName() . " has a " . $item . "\n";
 }
 
-$eldrin->inventory->removeItem("Potion");
-$thorgrim->inventory->removeItem("Shield");
+$eldrin->getInventory()->removeItem("Potion");
+$thorgrim->getInventory()->removeItem("Shield");
 
 echo "\nInventory after removing items:\n";
-foreach ($eldrin->inventory->getItems() as $item) {
-    echo $eldrin->name . " has a " . $item . "\n";
+foreach ($eldrin->getInventory()->getItems() as $item) {
+    echo $eldrin->getName() . " has a " . $item . "\n";
 }
 
-foreach ($thorgrim->inventory->getItems() as $item) {
-    echo $thorgrim->name . " has a " . $item . "\n";
+foreach ($thorgrim->getInventory()->getItems() as $item) {
+    echo $thorgrim->getName() . " has a " . $item . "\n";
 }
 echo "<br>";
 // Start een gevecht

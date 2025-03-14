@@ -7,7 +7,7 @@ namespace Game;
  */
 class Inventory
 {
-    public array $items = [];
+    private array $items = [];
 
     /**
      * Adds an item to the inventory
