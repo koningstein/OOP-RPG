@@ -9,27 +9,35 @@ use Smarty\Smarty;
 $template = new Smarty();
 $template->setTemplateDir('templates');
 
+$action = $_GET['action'] ?? '';
 
-// Mage met standaard defense en range
-$eldrin = new Character(
-    name: "Eldrin",
-    role: "Mage",
-    health: 100,
-    attack: 25
-);
+if($action == 'createCharacter')
+{
+    $template->display('createCharacterForm.tpl');
+}else{
+    // Mage met standaard defense en range
+    $eldrin = new Character(
+        name: "Eldrin",
+        role: "Mage",
+        health: 100,
+        attack: 25
+    );
 
 // Warrior met aangepaste defense
-$thorgrim = new Character(
-    name: "Thorgrim",
-    role: "Warrior",
-    health: 120,
-    attack: 12,
-    defense: 10
-);
+    $thorgrim = new Character(
+        name: "Thorgrim",
+        role: "Warrior",
+        health: 120,
+        attack: 12,
+        defense: 10
+    );
 
-$template->assign('eldrin', $eldrin);
-$template->assign('thorgrim', $thorgrim);
-$template->display('character.tpl');
+    $template->assign('eldrin', $eldrin);
+    $template->assign('thorgrim', $thorgrim);
+    $template->display('character.tpl');
+}
+
+
 
 //echo "<pre>";
 //echo $eldrin->displayStats();
