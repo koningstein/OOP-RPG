@@ -21,7 +21,8 @@
                     <td>{$character->getHealth()}</td>
                     <td>{$character->getDefense()}</td>
                     <td>{$character->getRange()}</td>
-                    <td></td>
+                    <td><a href="index.php?page=viewCharacter&name={$character->getName()}">View details</a> -
+                    <a href="index.php?page=deleteCharacter&name={$character->getName()}">Verwijder</a> </td>
                 </tr>
             {/foreach}
         </tbody>
