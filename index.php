@@ -4,10 +4,13 @@ require_once 'vendor/autoload.php';
 
 use Game\Character;
 use Game\Battle;
+use Game\CharacterList;
 use Smarty\Smarty;
 
+session_start();
 $template = new Smarty();
 $template->setTemplateDir('templates');
+$characterList = $_SESSION['characterList'] ?? new CharacterList();
 
 $action = $_GET['action'] ?? '';
 if(!empty($_POST['name']) && !empty($_POST['role']) && !empty($_POST['health'])
@@ -21,13 +24,16 @@ if(!empty($_POST['name']) && !empty($_POST['role']) && !empty($_POST['health'])
         (int)$_POST['defense'],
         (int)$_POST['range']
     );
-
+    $characterList->addCharacter($newCharacter);
     $template->assign('character', $newCharacter);
     $template->display('characterCreated.tpl');
 }
 elseif($action == 'createCharacter')
 {
     $template->display('createCharacterForm.tpl');
+} elseif ($action === 'listCharacters') {
+    $template->assign('characters', $characterList->getCharacters());
+    $template->display('characterList.tpl');
 }else{
     // Mage met standaard defense en range
     $eldrin = new Character(
@@ -50,7 +56,7 @@ elseif($action == 'createCharacter')
     $template->assign('thorgrim', $thorgrim);
     $template->display('character.tpl');
 }
-
+$_SESSION['characterList'] = $characterList;
 
 
 //echo "<pre>";
