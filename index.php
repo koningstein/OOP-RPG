@@ -10,8 +10,22 @@ $template = new Smarty();
 $template->setTemplateDir('templates');
 
 $action = $_GET['action'] ?? '';
+if(!empty($_POST['name']) && !empty($_POST['role']) && !empty($_POST['health'])
+    && !empty($_POST['defense']) && !empty($_POST['range']))
+{
+    $newCharacter = new Character(
+        $_POST['name'],
+        $_POST['role'],
+        (int)$_POST['health'],
+        (int)$_POST['attack'],
+        (int)$_POST['defense'],
+        (int)$_POST['range']
+    );
 
-if($action == 'createCharacter')
+    $template->assign('character', $newCharacter);
+    $template->display('characterCreated.tpl');
+}
+elseif($action == 'createCharacter')
 {
     $template->display('createCharacterForm.tpl');
 }else{
