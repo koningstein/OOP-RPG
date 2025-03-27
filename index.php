@@ -4,6 +4,11 @@ require_once 'vendor/autoload.php';
 
 use Game\Character;
 use Game\Battle;
+use Smarty\Smarty;
+
+$template = new Smarty();
+$template->setTemplateDir('templates');
+
 
 // Mage met standaard defense en range
 $eldrin = new Character(
@@ -22,48 +27,52 @@ $thorgrim = new Character(
     defense: 10
 );
 
-echo "<pre>";
-echo $eldrin->displayStats();
-echo $thorgrim->displayStats();
-echo "<br>";
+$template->assign('eldrin', $eldrin);
+$template->assign('thorgrim', $thorgrim);
+$template->display('character.tpl');
 
-$eldrin->getInventory()->addItem("Potion");
-$eldrin->getInventory()->addItem("Magic Staff");
-$thorgrim->getInventory()->addItem("Axe");
-$thorgrim->getInventory()->addItem("Shield");
-
-echo "<h3>Full inventory:</h3>";
-foreach ($eldrin->getInventory()->getItems() as $item) {
-    echo $eldrin->getName() . " has a " . $item . "\n";
-}
-
-foreach ($thorgrim->getInventory()->getItems() as $item) {
-    echo $thorgrim->getName() . " has a " . $item . "\n";
-}
-
-$eldrin->getInventory()->removeItem("Potion");
-$thorgrim->getInventory()->removeItem("Shield");
-
-echo "\nInventory after removing items:\n";
-foreach ($eldrin->getInventory()->getItems() as $item) {
-    echo $eldrin->getName() . " has a " . $item . "\n";
-}
-
-foreach ($thorgrim->getInventory()->getItems() as $item) {
-    echo $thorgrim->getName() . " has a " . $item . "\n";
-}
-echo "<br>";
-// Start een gevecht
-$battle = new Battle();
-$battle->changeMaxRounds(5);
-echo $battle->startFight($eldrin, $thorgrim);
-
-echo "\n\nFinal stats:\n";
-echo $eldrin->displayStats();
-echo "\n";
-echo $thorgrim->displayStats();
-
-echo $battle->startFight($eldrin, $thorgrim);
+//echo "<pre>";
+//echo $eldrin->displayStats();
+//echo $thorgrim->displayStats();
+//echo "<br>";
+//
+//$eldrin->getInventory()->addItem("Potion");
+//$eldrin->getInventory()->addItem("Magic Staff");
+//$thorgrim->getInventory()->addItem("Axe");
+//$thorgrim->getInventory()->addItem("Shield");
+//
+//echo "<h3>Full inventory:</h3>";
+//foreach ($eldrin->getInventory()->getItems() as $item) {
+//    echo $eldrin->getName() . " has a " . $item . "\n";
+//}
+//
+//foreach ($thorgrim->getInventory()->getItems() as $item) {
+//    echo $thorgrim->getName() . " has a " . $item . "\n";
+//}
+//
+//$eldrin->getInventory()->removeItem("Potion");
+//$thorgrim->getInventory()->removeItem("Shield");
+//
+//echo "\nInventory after removing items:\n";
+//foreach ($eldrin->getInventory()->getItems() as $item) {
+//    echo $eldrin->getName() . " has a " . $item . "\n";
+//}
+//
+//foreach ($thorgrim->getInventory()->getItems() as $item) {
+//    echo $thorgrim->getName() . " has a " . $item . "\n";
+//}
+//echo "<br>";
+//// Start een gevecht
+//$battle = new Battle();
+//$battle->changeMaxRounds(5);
+//echo $battle->startFight($eldrin, $thorgrim);
+//
+//echo "\n\nFinal stats:\n";
+//echo $eldrin->displayStats();
+//echo "\n";
+//echo $thorgrim->displayStats();
+//
+//echo $battle->startFight($eldrin, $thorgrim);
 //// Test setHealth met verschillende waarden
 //echo "\nTest setHealth methode:\n";
 //echo "Setting health to 50: " . $eldrin->setHealth(50) . "\n";
