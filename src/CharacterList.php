@@ -7,6 +7,9 @@ namespace Game;
  */
 class CharacterList
 {
+    /**
+     * @var Character[] $characters
+     */
     private array $characters = [];
 
     /**
@@ -20,7 +23,7 @@ class CharacterList
     }
 
     /**
-     * @return array
+     * @return Character[]
      */
     public function getCharacters(): array
     {

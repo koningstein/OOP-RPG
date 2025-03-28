@@ -22,11 +22,11 @@ class Battle
 
     /**
      * Starts and manages a fight between two characters
-     * @param $fighter1
-     * @param $fighter2
+     * @param Character $fighter1
+     * @param Character $fighter2
      * @return string
      */
-    public function startFight($fighter1, $fighter2)
+    public function startFight(Character $fighter1, Character $fighter2)
     {
         //$battleLog = "Battle Start!\n";
         $this->roundNumber = 1;

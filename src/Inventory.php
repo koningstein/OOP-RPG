@@ -7,6 +7,9 @@ namespace Game;
  */
 class Inventory
 {
+    /**
+     * @var string[] $items
+     */
     private array $items = [];
 
     /**
@@ -32,7 +35,7 @@ class Inventory
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getItems(): array
     {
