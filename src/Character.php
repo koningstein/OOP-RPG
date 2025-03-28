@@ -8,34 +8,38 @@ namespace Game;
 class Character 
 {
     private Inventory $inventory;
-    private ?int $rage = null;
-    private ?int $mana = null;
+    private string $name;
+    private string $role;
+    private int $health;
+    private int $attack;
+    private int $defense;
+    private int $range;
 
     /**
-     * Creates a new character with the given attributes
      * @param string $name
      * @param string $role
      * @param int $health
      * @param int $attack
      * @param int $defense
      * @param int $range
+     * @return void
      */
-    public function __construct(
-        private string $name,
-        private string $role,
-        private int $health,
-        private int $attack,
-        private int $defense = 5,
-        private int $range = 1,
-        ?int $rage = null,
-        ?int $mana = null
+    public function setCharacter(
+        string $name,
+        string $role,
+        int $health,
+        int $attack,
+        int $defense = 5,
+        int $range = 1
     ) {
+        $this->name = $name;
+        $this->role = $role;
+        $this->health = $health;
+        $this->attack = $attack;
+        $this->defense = $defense;
+        $this->range = $range;
+
         $this->inventory = new Inventory();
-        if($this->role === "Warrior") {
-            $this->rage = $rage ?? 100;
-        } elseif($this->role === "Mage") {
-            $this->mana = $mana ?? 100;
-        }
     }
 
     /**
@@ -144,37 +148,5 @@ class Character
     public function getInventory(): Inventory
     {
         return $this->inventory;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getRage(): ?int
-    {
-        return $this->rage;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getMana(): ?int
-    {
-        return $this->mana;
-    }
-
-    /**
-     * @param int|null $rage
-     */
-    public function setRage(?int $rage): void
-    {
-        $this->rage = $rage;
-    }
-
-    /**
-     * @param int|null $mana
-     */
-    public function setMana(?int $mana): void
-    {
-        $this->mana = $mana;
     }
 } 

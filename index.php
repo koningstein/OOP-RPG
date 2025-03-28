@@ -5,6 +5,8 @@ require_once 'vendor/autoload.php';
 use Game\Character;
 use Game\Battle;
 use Game\CharacterList;
+use Game\Mage;
+use Game\Warrior;
 use Smarty\Smarty;
 
 session_start();
@@ -22,7 +24,20 @@ switch($page)
         if(!empty($_POST['name']) && !empty($_POST['role']) && !empty($_POST['health'])
             && !empty($_POST['defense']) && !empty($_POST['range']))
         {
-            $newCharacter = new Character(
+            switch ($_POST['role']) {
+                case 'Warrior':
+                    $newCharacter = new Warrior();
+                    $newCharacter->setRage((int)$_POST['rage']);
+                    break;
+                case 'Mage':
+                    $newCharacter = new Mage();
+                    $newCharacter->setMana((int)$_POST['mana']);
+                    break;
+                default:
+                    $newCharacter = new Character();
+                    break;
+            }
+            $newCharacter->setCharacter(
                 $_POST['name'],
                 $_POST['role'],
                 (int)$_POST['health'],
@@ -30,12 +45,6 @@ switch($page)
                 (int)$_POST['defense'],
                 (int)$_POST['range']
             );
-
-            if ($_POST['role'] === 'Warrior' && !empty($_POST['rage'])) {
-                $newCharacter->setRage((int)$_POST['rage']);
-            } elseif ($_POST['role'] === 'Mage' && !empty($_POST['mana'])) {
-                $newCharacter->setMana((int)$_POST['mana']);
-            }
 
             $characterList->addCharacter($newCharacter);
             $template->assign('character', $newCharacter);
@@ -85,4 +94,5 @@ switch($page)
     default:
         $template->display('home.tpl');
 }
+//$_SESSION['characterList'] = null;
 $_SESSION['characterList'] = $characterList;
