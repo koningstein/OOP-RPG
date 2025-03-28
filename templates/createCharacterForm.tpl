@@ -40,8 +40,29 @@
                             <label for="range" class="form-label">Range</label>
                             <input type="number" class="form-control" id="range" name="range" min="1" max="10" value="1" required>
                         </div>
+                        <div class="mb-3" id="rageField" style="display:none;">
+                            <label for="rage" class="form-label">Rage</label>
+                            <input type="number" class="form-control" id="rage" name="rage" min="50" max="150" value="100" required>
+                        </div>
+                        <div class="mb-3" id="manaField" style="display:none;">
+                            <label for="mana" class="form-label">Mana</label>
+                            <input type="number" class="form-control" id="mana" name="mana" min="250" max="400" value="300" required>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Create Character</button>
                     </form>
+                    <script>
+                        function toggleFields() {
+                            var role = document.getElementById('role').value;
+                            document.getElementById('rageField').style.display = (role === 'Warrior') ? 'block' : 'none';
+                            document.getElementById('manaField').style.display = (role === 'Mage') ? 'block' : 'none';
+                        }
+
+                        document.getElementById('role').addEventListener('change', toggleFields);
+
+                        // Call the function on page load to set the initial state
+                        toggleFields();
+                    </script>
                 </div>
             </div>
         </div>

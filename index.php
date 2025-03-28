@@ -30,6 +30,13 @@ switch($page)
                 (int)$_POST['defense'],
                 (int)$_POST['range']
             );
+
+            if ($_POST['role'] === 'Warrior' && !empty($_POST['rage'])) {
+                $newCharacter->setRage((int)$_POST['rage']);
+            } elseif ($_POST['role'] === 'Mage' && !empty($_POST['mana'])) {
+                $newCharacter->setMana((int)$_POST['mana']);
+            }
+
             $characterList->addCharacter($newCharacter);
             $template->assign('character', $newCharacter);
             $template->display('characterCreated.tpl');

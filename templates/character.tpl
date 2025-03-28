@@ -14,6 +14,12 @@
                     <p class="card-text"><strong>Attack:</strong> {$character->getAttack()}</p>
                     <p class="card-text"><strong>Defense:</strong> {$character->getDefense()}</p>
                     <p class="card-text"><strong>Range:</strong> {$character->getRange()}</p>
+                    {if $character->getRole() == 'Warrior' && $character->getRage() !== null}
+                        <p class="card-text"><strong>Rage:</strong> {$character->getRage()}</p>
+                    {/if}
+                    {if $character->getRole() == 'Mage' && $character->getMana() !== null}
+                        <p class="card-text"><strong>Mana:</strong> {$character->getMana()}</p>
+                    {/if}
                 </div>
             </div>
         </div>
