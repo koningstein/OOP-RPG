@@ -1,0 +1,102 @@
+<?php
+
+namespace Game;
+
+class Warrior
+{
+    private Inventory $inventory;
+    private int $rage;
+
+    public function __construct(
+        private string $name,
+        private string $role = 'Warrior',
+        private int $health,
+        private int $attack,
+        private int $defense = 5,
+        private int $range = 1,
+        int $rage = 100
+    ) {
+        $this->inventory = new Inventory();
+        $this->rage = $rage;
+    }
+
+    public function displayStats(): string
+    {
+        return "<h3>Warrior Stats:</h3>" .
+               "Name: " . $this->name . "\n" .
+               "Role: " . $this->role . "\n" .
+               "Health: " . $this->health . "\n" .
+               "Attack: " . $this->attack . "\n" .
+               "Defense: " . $this->defense . "\n" .
+               "Range: " . $this->range . "\n" .
+               "Rage: " . $this->rage . "\n";
+    }
+
+    public function setHealth(int $newHealth): string
+    {
+        if ($newHealth < 0) {
+            return "Error: Health cannot be set to a negative value";
+        }
+        $this->health = $newHealth;
+        return "Health set to: " . $this->health;
+    }
+
+    public function getAttack(): int
+    {
+        return $this->attack;
+    }
+
+    public function getSummary(): string
+    {
+        return $this->name . " is a " . $this->role . " with " . $this->health . " health";
+    }
+
+    public function takeDamage(int $amount): void
+    {
+        if ($amount < $this->health) {
+            $this->health -= $amount;
+        } else {
+            $this->health = 0;
+        }
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    public function getHealth(): int
+    {
+        return $this->health;
+    }
+
+    public function getDefense(): int
+    {
+        return $this->defense;
+    }
+
+    public function getRange(): int
+    {
+        return $this->range;
+    }
+
+    public function getInventory(): Inventory
+    {
+        return $this->inventory;
+    }
+
+    public function getRage(): int
+    {
+        return $this->rage;
+    }
+
+    public function setRage(int $rage): void
+    {
+        $this->rage = $rage;
+    }
+}
