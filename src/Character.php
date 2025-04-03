@@ -152,6 +152,19 @@ class Character
         return $this->inventory;
     }
 
+    /**
+     * Modifies the temporary attack and defense stats
+     * @param int $attackMod
+     * @param int $defenseMod
+     * @return string
+     */
+    protected function modifyTemporaryStats(int $attackMod, int $defenseMod): string
+    {
+        $this->tempAttack = $attackMod;
+        $this->tempDefense = $defenseMod;
+        return "Temporary stats modified: Attack = {$this->tempAttack}, Defense = {$this->tempDefense}";
+    }
+
     public function resetTempstats(): void
     {
         $this->tempAttack = 0;

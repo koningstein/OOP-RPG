@@ -8,6 +8,7 @@ use Game\CharacterList;
 use Game\Mage;
 use Game\Rogue;
 use Game\Warrior;
+use Game\Healer;
 use Smarty\Smarty;
 
 session_start();
@@ -37,6 +38,10 @@ switch($page)
                 case 'Rogue':
                     $newCharacter = new Rogue();
                     $newCharacter->setEnergy((int)$_POST['energy']);
+                    break;
+                case 'Healer':
+                    $newCharacter = new Healer();
+                    $newCharacter->setSpirit((int)$_POST['spirit']);
                     break;
                 default:
                     $newCharacter = new Character();
