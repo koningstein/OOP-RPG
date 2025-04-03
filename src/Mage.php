@@ -32,9 +32,11 @@ class Mage extends Character
         if($this->mana < 30) {
             return "Not enough mana for fireball!";
         }
-        $this->tempAttack = (int) ceil(0.5 * $this->attack);
-        $this->tempDefense = (int) ceil(0.8 * $this->defense);
+        $modificationResult = $this->modifyTemporaryStats(
+            (int)ceil(0.5 * $this->attack),
+            (int)ceil(0.8 * $this->defense)
+        );
         $this->mana -= 30;
-        return "Cast fireball with {$this->attack} power! Defense is temporarily reduced by {$this->tempDefense}";
+        return "Cast fireball! {$modificationResult}";
     }
 }

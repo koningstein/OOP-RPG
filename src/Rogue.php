@@ -31,9 +31,11 @@ class Rogue extends Character
         if($this->energy < 20) {
             return "Not enough energy for sneak attack!";
         }
-        $this->tempAttack = $this->attack;
+        $modificationResult = $this->modifyTemporaryStats(
+            $this->attack,
+            (int)ceil(0.6 * $this->defense)
+        );
         $this->energy -= 20;
-        $this->tempDefense = (int) ceil(0.6 * $this->defense);
-        return "Performed sneak attack with {$this->attack} power!. Defense is temporarily reduced by {$this->tempDefense}";
+        return "Performed sneak attack! {$modificationResult}";
     }
 }
