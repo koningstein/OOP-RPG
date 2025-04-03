@@ -6,6 +6,7 @@ use Game\Character;
 use Game\Battle;
 use Game\CharacterList;
 use Game\Mage;
+use Game\Rogue;
 use Game\Warrior;
 use Smarty\Smarty;
 
@@ -32,6 +33,10 @@ switch($page)
                 case 'Mage':
                     $newCharacter = new Mage();
                     $newCharacter->setMana((int)$_POST['mana']);
+                    break;
+                case 'Rogue':
+                    $newCharacter = new Rogue();
+                    $newCharacter->setEnergy((int)$_POST['energy']);
                     break;
                 default:
                     $newCharacter = new Character();
@@ -90,6 +95,10 @@ switch($page)
                 $template->display('error.tpl');
             }
         }
+        break;
+    case 'battleForm':
+        $template->assign('characters', $characterList->getCharacters());
+        $template->display('battleForm.tpl');
         break;
     default:
         $template->display('home.tpl');
