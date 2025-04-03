@@ -48,6 +48,10 @@
                             <label for="mana" class="form-label">Mana</label>
                             <input type="number" class="form-control" id="mana" name="mana" min="250" max="400" value="300" required>
                         </div>
+                        <div class="mb-3" id="energyField" style="display: none;">
+                            <label for="energy">Energy:</label>
+                            <input type="number" class="form-control" id="energy" name="energy" min="75" max="150" value="100" required>
+                        </div>
 
                         <button type="submit" class="btn btn-primary">Create Character</button>
                     </form>
@@ -56,6 +60,7 @@
                             var role = document.getElementById('role').value;
                             document.getElementById('rageField').style.display = (role === 'Warrior') ? 'block' : 'none';
                             document.getElementById('manaField').style.display = (role === 'Mage') ? 'block' : 'none';
+                            document.getElementById('energyField').style.display = (role === 'Rogue') ? 'block' : 'none';
                         }
 
                         document.getElementById('role').addEventListener('change', toggleFields);

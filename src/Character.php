@@ -11,9 +11,11 @@ class Character
     private string $name;
     private string $role;
     private int $health;
-    private int $attack;
-    private int $defense;
+    protected int $attack;
+    protected int $defense;
     private int $range;
+    protected int $tempAttack = 0;
+    protected int $tempDefense = 0;
 
     /**
      * @param string $name
@@ -77,7 +79,7 @@ class Character
      */
     public function getAttack(): int
     {
-        return $this->attack;
+        return $this->attack + $this->tempAttack;
     }
 
     /**
@@ -131,7 +133,7 @@ class Character
      */
     public function getDefense(): int
     {
-        return $this->defense;
+        return $this->defense + $this->tempDefense;
     }
 
     /**
@@ -148,5 +150,11 @@ class Character
     public function getInventory(): Inventory
     {
         return $this->inventory;
+    }
+
+    public function resetTempstats(): void
+    {
+        $this->tempAttack = 0;
+        $this->tempDefense = 0;
     }
 } 
