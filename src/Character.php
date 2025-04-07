@@ -17,23 +17,13 @@ class Character
     protected int $tempAttack = 0;
     protected int $tempDefense = 0;
 
-    /**
-     * @param string $name
-     * @param string $role
-     * @param int $health
-     * @param int $attack
-     * @param int $defense
-     * @param int $range
-     * @return void
-     */
-    public function setCharacter(
-        string $name,
-        string $role,
-        int $health,
-        int $attack,
-        int $defense = 5,
-        int $range = 1
-    ) {
+    public function __construct(string $name,
+                                string $role,
+                                int $health,
+                                int $attack,
+                                int $defense = 5,
+                                int $range = 1)
+    {
         $this->name = $name;
         $this->role = $role;
         $this->health = $health;
@@ -43,6 +33,33 @@ class Character
 
         $this->inventory = new Inventory();
     }
+
+//    /**
+//     * @param string $name
+//     * @param string $role
+//     * @param int $health
+//     * @param int $attack
+//     * @param int $defense
+//     * @param int $range
+//     * @return void
+//     */
+//    public function setCharacter(
+//        string $name,
+//        string $role,
+//        int $health,
+//        int $attack,
+//        int $defense = 5,
+//        int $range = 1
+//    ) {
+//        $this->name = $name;
+//        $this->role = $role;
+//        $this->health = $health;
+//        $this->attack = $attack;
+//        $this->defense = $defense;
+//        $this->range = $range;
+//
+//        $this->inventory = new Inventory();
+//    }
 
     /**
      * Displays all stats of the character

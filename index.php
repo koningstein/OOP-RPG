@@ -28,33 +28,30 @@ switch($page)
         {
             switch ($_POST['role']) {
                 case 'Warrior':
-                    $newCharacter = new Warrior();
-                    $newCharacter->setRage((int)$_POST['rage']);
+                    $newCharacter = new Warrior( $_POST['name'], $_POST['role'], (int)$_POST['health'],(int)$_POST['attack'],
+                        (int)$_POST['defense'],(int)$_POST['range'], (int)$_POST['rage']);
+                    //$newCharacter->setRage((int)$_POST['rage']);
                     break;
                 case 'Mage':
-                    $newCharacter = new Mage();
+                    $newCharacter = new Mage($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range']);
                     $newCharacter->setMana((int)$_POST['mana']);
                     break;
                 case 'Rogue':
-                    $newCharacter = new Rogue();
+                    $newCharacter = new Rogue($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range']);
                     $newCharacter->setEnergy((int)$_POST['energy']);
                     break;
                 case 'Healer':
-                    $newCharacter = new Healer();
+                    $newCharacter = new Healer($_POST['name'],  $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range']);
                     $newCharacter->setSpirit((int)$_POST['spirit']);
                     break;
                 default:
-                    $newCharacter = new Character();
+                    $newCharacter = new Character($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range']);
                     break;
             }
-            $newCharacter->setCharacter(
-                $_POST['name'],
-                $_POST['role'],
-                (int)$_POST['health'],
-                (int)$_POST['attack'],
-                (int)$_POST['defense'],
-                (int)$_POST['range']
-            );
 
             $characterList->addCharacter($newCharacter);
             $template->assign('character', $newCharacter);
