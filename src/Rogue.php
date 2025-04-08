@@ -29,6 +29,12 @@ class Rogue extends Character
         $this->energy = $energy;
     }
 
+    public function getSummary(): string
+    {
+        $parentSummary = parent::getSummary();
+        return "{$parentSummary}. This agile rogue has {$this->energy} energy points";
+    }
+
     /**
      * @return string
      */

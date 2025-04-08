@@ -20,6 +20,10 @@
                     {if $character->getRole() == 'Mage' && $character->getMana() !== null}
                         <p class="card-text"><strong>Mana:</strong> {$character->getMana()}</p>
                     {/if}
+                    <div class="character-summary">
+                        <h3>Character Summary</h3>
+                        <p>{$character->getSummary()}</p>
+                    </div>
                 </div>
             </div>
         </div>
