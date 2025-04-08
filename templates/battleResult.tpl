@@ -18,23 +18,28 @@
                     <p><strong>Defense:</strong> {$character1->getDefense()}</p>
                     <p><strong>Range:</strong> {$character1->getRange()}</p>
                     {if $character1->getRole() == 'Warrior'}
-                        {if isset($character1->getRage)}
+                        {if isset($character1->getRage())}
                             <p><strong>Rage:</strong> {$character1->getRage()}</p>
                         {/if}
                     {/if}
                     {if $character1->getRole() == 'Mage'}
-                        {if isset($character1->getMana)}
+                        {if isset($character1->getMana())}
                             <p><strong>Mana:</strong> {$character1->getMana()}</p>
                         {/if}
                     {/if}
                     {if $character1->getRole() == 'Rogue'}
-                        {if isset($character1->getEnergy)}
+                        {if isset($character1->getEnergy())}
                             <p><strong>Energy:</strong> {$character1->getEnergy()}</p>
                         {/if}
                     {/if}
                     {if $character1->getRole() == 'Healer'}
-                        {if isset($character1->getSpirit)}
+                        {if isset($character1->getSpirit())}
                             <p><strong>Spirit:</strong> {$character1->getSpirit()}</p>
+                        {/if}
+                    {/if}
+                    {if $character1->getRole() === 'Tank'}
+                        {if isset($character1->getShield())}
+                            <p><strong>Shield Durability:</strong> {$character1->getShield()}</p>
                         {/if}
                     {/if}
                 </div>
@@ -70,23 +75,28 @@
                     <p><strong>Defense:</strong> {$character2->getDefense()}</p>
                     <p><strong>Range:</strong> {$character2->getRange()}</p>
                     {if $character2->getRole() == 'Warrior'}
-                        {if isset($character2->getRage)}
+                        {if isset($character2->getRage())}
                             <p><strong>Rage:</strong> {$character2->getRage()}</p>
                         {/if}
                     {/if}
                     {if $character2->getRole() == 'Mage'}
-                        {if isset($character2->getMana)}
+                        {if isset($character2->getMana())}
                             <p><strong>Mana:</strong> {$character2->getMana()}</p>
                         {/if}
                     {/if}
                     {if $character2->getRole() == 'Rogue'}
-                        {if isset($character2->getEnergy)}
+                        {if isset($character2->getEnergy())}
                             <p><strong>Energy:</strong> {$character2->getEnergy()}</p>
                         {/if}
                     {/if}
                     {if $character2->getRole() == 'Healer'}
-                        {if isset($character2->getSpirit)}
+                        {if isset($character2->getSpirit())}
                             <p><strong>Spirit:</strong> {$character2->getSpirit()}</p>
+                        {/if}
+                    {/if}
+                    {if $character2->getRole() == 'Tank'}
+                        {if isset($character2->getShield())}
+                            <p><strong>Shield Durability:</strong> {$character2->getShield()}</p>
                         {/if}
                     {/if}
                 </div>

@@ -56,6 +56,10 @@
                             <label for="spirit">Spirit:</label>
                             <input type="number" class="form-control" id="spirit" name="spirit" min="100" max="500" value="200" required>
                         </div>
+                        <div class="mb-3" id="shieldField" style="display:none;">
+                            <label for="shield" class="form-label">Shield Durability</label>
+                            <input type="number" class="form-control" id="shield" name="shield" min="30" max="100" value="50" required>
+                        </div>
 
                         <button type="submit" class="btn btn-primary">Create Character</button>
                     </form>
@@ -66,6 +70,7 @@
                             document.getElementById('manaField').style.display = (role === 'Mage') ? 'block' : 'none';
                             document.getElementById('energyField').style.display = (role === 'Rogue') ? 'block' : 'none';
                             document.getElementById('spiritField').style.display = (role === 'Healer') ? 'block' : 'none';
+                            document.getElementById('shieldField').style.display = (role === 'Tank') ? 'block' : 'none';
                         }
 
                         document.getElementById('role').addEventListener('change', toggleFields);

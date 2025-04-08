@@ -10,6 +10,7 @@ use Game\Rogue;
 use Game\Warrior;
 use Game\Healer;
 use Smarty\Smarty;
+use Game\Tank;
 
 session_start();
 $template = new Smarty();
@@ -30,27 +31,27 @@ switch($page)
                 case 'Warrior':
                     $newCharacter = new Warrior( $_POST['name'], $_POST['role'], (int)$_POST['health'],(int)$_POST['attack'],
                         (int)$_POST['defense'],(int)$_POST['range'], (int)$_POST['rage']);
-                    //$newCharacter->setRage((int)$_POST['rage']);
                     break;
                 case 'Mage':
                     $newCharacter = new Mage($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
                         (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['mana']);
-//                    $newCharacter->setMana((int)$_POST['mana']);
                     break;
                 case 'Rogue':
                     $newCharacter = new Rogue($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
                         (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['energy']);
-//                    $newCharacter->setEnergy((int)$_POST['energy']);
                     break;
                 case 'Healer':
                     $newCharacter = new Healer($_POST['name'],  $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
                         (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['spirit']);
-//                    $newCharacter->setSpirit((int)$_POST['spirit']);
+                    break;
+                case 'Tank':
+                    $newCharacter = new Tank($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['shield']);
                     break;
                 default:
-                    $newCharacter = new Character($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
-                        (int)$_POST['defense'], (int)$_POST['range']);
-                    break;
+                    $template->assign('error', "Ongeldige rol geselecteerd. Kies een geldige rol.");
+                    $template->display('error.tpl');
+                    return; // Stop verdere verwerking
             }
 
             $characterList->addCharacter($newCharacter);
@@ -80,6 +81,23 @@ switch($page)
                 $template->assign('error', "De character is niet te vinden in de lijst");
                 $template->display('error.tpl');
             }
+        }
+        break;
+    case 'resetCharacterHealth':
+        if (!empty($_POST['name'])) {
+            $character = $characterList->getCharacter($_POST['name']);
+            if ($character instanceof Character) {
+                $character->setHealth(100); // Reset health to 100
+                $template->assign('character', $character);
+                $template->assign('message', "Health is reset to 100 for {$character->getName()}.");
+                $template->display('character.tpl');
+            } else {
+                $template->assign('error', "Character not found.");
+                $template->display('error.tpl');
+            }
+        } else {
+            $template->assign('error', "No character name provided.");
+            $template->display('error.tpl');
         }
         break;
     case 'deleteCharacter':
