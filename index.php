@@ -122,7 +122,7 @@ switch($page)
                 $template->assign('character2', $character2);
                 $template->assign('character1OriginalHealth', $character1->getHealth());
                 $template->assign('character2OriginalHealth', $character2->getHealth());
-                $template->display('battleTurn.tpl');
+                $template->display('battleResult.tpl');
             } else {
                 $template->assign('error', "Both characters must be selected.");
                 $template->display('error.tpl');
@@ -150,7 +150,7 @@ switch($page)
         $template->assign('character2', $character2);
         $template->assign('character1OriginalHealth', $_SESSION['character1OriginalHealth']);
         $template->assign('character2OriginalHealth', $_SESSION['character2OriginalHealth']);
-        $template->display('battleTurn.tpl');
+        $template->display('battleResult.tpl');
         break;
     case 'resetHealth':
         $battle = $_SESSION['battle'];

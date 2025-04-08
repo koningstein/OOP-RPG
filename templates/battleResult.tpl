@@ -43,8 +43,6 @@
                         <strong>DEFEATED</strong>
                     {elseif $character2->getHealth() <= 0}
                         <strong>VICTORY</strong>
-                    {else}
-                        <strong>DRAW</strong>
                     {/if}
                 </div>
             </div>
@@ -97,8 +95,28 @@
                         <strong>DEFEATED</strong>
                     {elseif $character1->getHealth() <= 0}
                         <strong>VICTORY</strong>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h3>Actions</h3>
+                </div>
+                <div class="card-body text-center">
+                    {if $character1->getHealth() > 0 && $character2->getHealth() > 0}
+                        <form method="post" action="index.php?page=nextBattleRound" class="d-inline">
+                            <button type="submit" class="btn btn-primary">Attack</button>
+                        </form>
                     {else}
-                        <strong>DRAW</strong>
+                        <form method="post" action="index.php?page=resetHealth" class="d-inline">
+                            <button type="submit" class="btn btn-success">Reset</button>
+                        </form>
                     {/if}
                 </div>
             </div>
@@ -113,55 +131,11 @@
                     <h3>Battle Log</h3>
                 </div>
                 <div class="card-body bg-light">
-                    <div class="battle-log">
-                        <div class="battle-log">
-                            {$battleLog}
-                        </div>
-
-                        <style>
-                            .battle-log {
-                                background-color: #f8f9fa;
-                                border: 1px solid #dee2e6;
-                                border-radius: 4px;
-                                padding: 1rem;
-                                font-family: monospace;
-                                font-size: 0.9rem;
-                                color: #212529;
-                                line-height: 1.5;
-                            }
-                        </style>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a href="index.php?page=battleForm" class="btn btn-primary">New Battle</a>
-                    <a href="index.php?page=listCharacters" class="btn btn-secondary">Character List</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hidden section for future team battles -->
-    <div class="row mt-4" style="display: none">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-dark text-white">
-                    <h3>Team Battle Results</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Structure for team battle display (2v2 or 3v3) - hidden for now -->
-                    <div class="row">
-                        <div class="col-md-5">
-                            <h4>Team 1</h4>
-                            <!-- Here will be team members -->
-                        </div>
-                        <div class="col-md-2 text-center">
-                            <h2>VS</h2>
-                        </div>
-                        <div class="col-md-5">
-                            <h4>Team 2</h4>
-                            <!-- Here will be team members -->
-                        </div>
-                    </div>
+                    <ul>
+                        {foreach from=$battle->getBattleLog() item=logEntry}
+                            <li>{$logEntry}</li>
+                        {/foreach}
+                    </ul>
                 </div>
             </div>
         </div>
