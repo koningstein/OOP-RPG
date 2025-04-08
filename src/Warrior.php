@@ -8,7 +8,7 @@ class Warrior extends Character
 
     public function __construct(string $name, string $role, int $health, int $attack, int $defense, int $range, int $rage)
     {
-        $this->setCharacter($name, $role, $health, $attack, $defense, $range);
+        parent::__construct($name, $role, $health, $attack, $defense, $range);
         $this->rage = $rage;
     }
 
