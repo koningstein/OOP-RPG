@@ -6,6 +6,12 @@ class Rogue extends Character
 {
     private int $energy = 100;
 
+    public function __construct(string $name, string $role, int $health, int $attack, int $defense = 6, int $range = 2, int $energy = 100)
+    {
+        parent::__construct($name, $role, $health, $attack, $defense, $range);
+        $this->energy = $energy;
+    }
+
     /**
      * @return int
      */

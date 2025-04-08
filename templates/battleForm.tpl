@@ -9,7 +9,7 @@
                     <h2>Choose Characters for Battle</h2>
                 </div>
                 <div class="card-body">
-                    <form action="index.php?page=battle" method="POST">
+                    <form action="index.php?page=startBattle" method="POST">
                         <div class="mb-3">
                             <label for="character1" class="form-label">Choose Character 1:</label>
                             <select class="form-select" id="character1" name="character1" required>

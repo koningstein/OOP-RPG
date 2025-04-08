@@ -6,6 +6,12 @@ class Healer extends Character
 {
     private int $spirit = 500;
 
+    public function __construct(string $name, string $role, int $health, int $attack, int $defense = 6, int $range = 3, $spirit = 200)
+    {
+        parent::__construct($name, $role, $health, $attack, $defense, $range);
+        $this->spirit = 500; // Default spirit value
+    }
+
     /**
      * @return int
      */

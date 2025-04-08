@@ -46,7 +46,7 @@
                         </div>
                         <div class="mb-3" id="manaField" style="display:none;">
                             <label for="mana" class="form-label">Mana</label>
-                            <input type="number" class="form-control" id="mana" name="mana" min="250" max="400" value="300" required>
+                            <input type="number" class="form-control" id="mana" name="mana" min="150" max="400" value="150" required>
                         </div>
                         <div class="mb-3" id="energyField" style="display: none;">
                             <label for="energy">Energy:</label>
@@ -54,7 +54,7 @@
                         </div>
                         <div class="mb-3" id="spiritField" style="display: none;">
                             <label for="spirit">Spirit:</label>
-                            <input type="number" class="form-control" id="spirit" name="spirit" min="100" max="500" value="500" required>
+                            <input type="number" class="form-control" id="spirit" name="spirit" min="100" max="500" value="200" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Create Character</button>

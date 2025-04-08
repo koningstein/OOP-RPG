@@ -28,33 +28,30 @@ switch($page)
         {
             switch ($_POST['role']) {
                 case 'Warrior':
-                    $newCharacter = new Warrior();
-                    $newCharacter->setRage((int)$_POST['rage']);
+                    $newCharacter = new Warrior( $_POST['name'], $_POST['role'], (int)$_POST['health'],(int)$_POST['attack'],
+                        (int)$_POST['defense'],(int)$_POST['range'], (int)$_POST['rage']);
+                    //$newCharacter->setRage((int)$_POST['rage']);
                     break;
                 case 'Mage':
-                    $newCharacter = new Mage();
-                    $newCharacter->setMana((int)$_POST['mana']);
+                    $newCharacter = new Mage($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['mana']);
+//                    $newCharacter->setMana((int)$_POST['mana']);
                     break;
                 case 'Rogue':
-                    $newCharacter = new Rogue();
-                    $newCharacter->setEnergy((int)$_POST['energy']);
+                    $newCharacter = new Rogue($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['energy']);
+//                    $newCharacter->setEnergy((int)$_POST['energy']);
                     break;
                 case 'Healer':
-                    $newCharacter = new Healer();
-                    $newCharacter->setSpirit((int)$_POST['spirit']);
+                    $newCharacter = new Healer($_POST['name'],  $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['spirit']);
+//                    $newCharacter->setSpirit((int)$_POST['spirit']);
                     break;
                 default:
-                    $newCharacter = new Character();
+                    $newCharacter = new Character($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range']);
                     break;
             }
-            $newCharacter->setCharacter(
-                $_POST['name'],
-                $_POST['role'],
-                (int)$_POST['health'],
-                (int)$_POST['attack'],
-                (int)$_POST['defense'],
-                (int)$_POST['range']
-            );
 
             $characterList->addCharacter($newCharacter);
             $template->assign('character', $newCharacter);
@@ -104,6 +101,41 @@ switch($page)
     case 'battleForm':
         $template->assign('characters', $characterList->getCharacters());
         $template->display('battleForm.tpl');
+        break;
+    case 'startBattle':
+        if (!empty($_POST['character1']) && !empty($_POST['character2'])) {
+            $character1 = $characterList->getCharacter($_POST['character1']);
+            $character2 = $characterList->getCharacter($_POST['character2']);
+
+            if ($character1 instanceof Character && $character2 instanceof Character) {
+                // Bewaar de originele health waarden
+                $character1OriginalHealth = $character1->getHealth();
+                $character2OriginalHealth = $character2->getHealth();
+
+                $battle = new Battle();
+                $battle->changeMaxRounds(10);
+                $battleLog = $battle->startFight($character1, $character2);
+
+                $template->assign('character1', $character1);
+                $template->assign('character2', $character2);
+                $template->assign('character1OriginalHealth', $character1OriginalHealth);
+                $template->assign('character2OriginalHealth', $character2OriginalHealth);
+
+                //var_dump($battleLog);
+                $template->assign('battleLog', $battleLog);
+                $template->display('battleResult.tpl');
+
+                // Nu kunnen we de health resetten voor toekomstige gevechten
+                $character1->setHealth($character1OriginalHealth);
+                $character2->setHealth($character2OriginalHealth);
+            } else {
+                $template->assign('error', "Both characters must be selected.");
+                $template->display('error.tpl');
+            }
+        } else {
+            $template->assign('error', "Both characters must be selected.");
+            $template->display('error.tpl');
+        }
         break;
     default:
         $template->display('home.tpl');
