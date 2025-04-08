@@ -29,6 +29,12 @@ class Healer extends Character
         $this->spirit = $spirit;
     }
 
+    public function getSummary(): string
+    {
+        $parentSummary = parent::getSummary();
+        return "{$parentSummary}. This healer possesses {$this->spirit} spirit power";
+    }
+
     /**
      * @return string
      */

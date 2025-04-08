@@ -100,12 +100,12 @@ class Character
     }
 
     /**
-     * Returns a brief summary of the character
+     * Returns a summary of the character.
      * @return string
      */
     public function getSummary(): string
     {
-        return $this->name . " is a " . $this->role . " with " . $this->health . " health";
+        return "{$this->getName()} is a {$this->getRole()} with {$this->getHealth()} health and {$this->getAttack()} attack power";
     }
 
     /**
