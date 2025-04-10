@@ -65,7 +65,7 @@
                     </form>
                     <script>
                         function toggleFields() {
-                            var role = document.getElementById('role').value;
+                            let role = document.getElementById('role').value;
                             document.getElementById('rageField').style.display = (role === 'Warrior') ? 'block' : 'none';
                             document.getElementById('manaField').style.display = (role === 'Mage') ? 'block' : 'none';
                             document.getElementById('energyField').style.display = (role === 'Rogue') ? 'block' : 'none';
