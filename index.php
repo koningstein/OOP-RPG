@@ -122,7 +122,7 @@ switch($page)
                 $template->assign('character2OriginalHealth', $character2OriginalHealth);
 
                 //var_dump($battleLog);
-                $template->assign('battleLog', $battleLog);
+                $template->assign('battle', $battle);
                 $template->display('battleResult.tpl');
 
                 // Nu kunnen we de health resetten voor toekomstige gevechten

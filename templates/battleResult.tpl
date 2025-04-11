@@ -115,7 +115,7 @@
                 <div class="card-body bg-light">
                     <div class="battle-log">
                         <div class="battle-log">
-                            {$battleLog}
+                            {$battle->getBattleLog()}
                         </div>
 
                         <style>

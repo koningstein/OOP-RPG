@@ -10,6 +10,8 @@ class Battle
     private string $battleLog;
     private int $maxRounds = 10;
     private int $roundNumber = 1;
+    private int $fighter1OriginalHealth;
+    private int $fighter2OriginalHealth;
 
     /**
      * @param int $maxRounds
