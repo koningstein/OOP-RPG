@@ -29,6 +29,12 @@ class Warrior extends Character
         $this->rage = $rage;
     }
 
+    public function getSummary(): string
+    {
+        $parentSummary = parent::getSummary();
+        return "{$parentSummary}. Additionally, this warrior has {$this->rage} rage points";
+    }
+
     /**
      * @return string
      */

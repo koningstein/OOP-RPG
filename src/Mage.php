@@ -30,6 +30,12 @@ class Mage extends Character
         $this->mana = $mana;
     }
 
+    public function getSummary(): string
+    {
+        $parentSummary = parent::getSummary();
+        return "{$parentSummary}. This mage commands {$this->mana} mana for casting spells";
+    }
+
     /**
      * @return string
      */
