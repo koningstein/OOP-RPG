@@ -104,36 +104,38 @@ switch($page)
         break;
     case 'startBattle':
         if (!empty($_POST['character1']) && !empty($_POST['character2'])) {
-            $character1 = $characterList->getCharacter($_POST['character1']);
-            $character2 = $characterList->getCharacter($_POST['character2']);
+            $fighter1 = $characterList->getCharacter($_POST['character1']);
+            $fighter2 = $characterList->getCharacter($_POST['character2']);
 
-            if ($character1 instanceof Character && $character2 instanceof Character) {
-                // Bewaar de originele health waarden
-                $character1OriginalHealth = $character1->getHealth();
-                $character2OriginalHealth = $character2->getHealth();
-
-                $battle = new Battle();
-                $battle->changeMaxRounds(10);
-                $battleLog = $battle->startFight($character1, $character2);
-
-                $template->assign('character1', $character1);
-                $template->assign('character2', $character2);
-                $template->assign('character1OriginalHealth', $character1OriginalHealth);
-                $template->assign('character2OriginalHealth', $character2OriginalHealth);
-
-                //var_dump($battleLog);
-                $template->assign('battle', $battle);
-                $template->display('battleResult.tpl');
-
-                // Nu kunnen we de health resetten voor toekomstige gevechten
-                $character1->setHealth($character1OriginalHealth);
-                $character2->setHealth($character2OriginalHealth);
-            } else {
-                $template->assign('error', "Both characters must be selected.");
-                $template->display('error.tpl');
-            }
+            $battle = new Battle($fighter1, $fighter2, 10);
+            $_SESSION['battle'] = $battle;
+            $template->assign('battle', $battle);
+            $template->display('battleResult.tpl');
         } else {
             $template->assign('error', "Both characters must be selected.");
+            $template->display('error.tpl');
+        }
+        break;
+    case 'battleRound':
+        if (isset($_SESSION['battle'])) {
+            $battle = $_SESSION['battle'];
+            $battle->executeTurn($battle->getFighter1(), $battle->getFighter2());
+            $_SESSION['battle'] = $battle;
+            $template->assign('battle', $battle);
+            $template->display('battleResult.tpl');
+        } else {
+            $template->assign('error', "No active battle found.");
+            $template->display('error.tpl');
+        }
+        break;
+    case 'resetHealth':
+        if (isset($_SESSION['battle'])) {
+            $battle = $_SESSION['battle'];
+            $battle->endBattle();
+            header('Location: index.php?page=battleForm');
+            exit;
+        } else {
+            $template->assign('error', "No active battle found.");
             $template->display('error.tpl');
         }
         break;

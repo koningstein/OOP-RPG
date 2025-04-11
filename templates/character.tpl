@@ -20,7 +20,14 @@
                     {if $character->getRole() == 'Mage' && $character->getMana() !== null}
                         <p class="card-text"><strong>Mana:</strong> {$character->getMana()}</p>
                     {/if}
-                </div>
+                    {if $character->getRole() == 'Rogue' && $character->getEnergy() !== null}
+                        <p class="card-text"><strong>Energy:</strong> {$character->getEnergy()}</p>
+                    {/if}
+                    {if $character->getRole() == 'Healer' && $character->getSpirit() !== null}
+                        <p class="card-text"><strong>Spirit:</strong> {$character->getSpirit()}</p>
+                    {/if}
+
+                    <p class="card-text"><strong>Summary:</strong> {$character->getSummary()}</p>
             </div>
         </div>
     </div>
