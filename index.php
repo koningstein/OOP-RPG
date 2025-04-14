@@ -9,6 +9,7 @@ use Game\Mage;
 use Game\Rogue;
 use Game\Warrior;
 use Game\Healer;
+use Game\Tank;
 use Smarty\Smarty;
 
 session_start();
@@ -47,10 +48,14 @@ switch($page)
                         (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['spirit']);
 //                    $newCharacter->setSpirit((int)$_POST['spirit']);
                     break;
-                default:
-                    $newCharacter = new Character($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
-                        (int)$_POST['defense'], (int)$_POST['range']);
+                case 'Tank': // Added case for Tank
+                    $newCharacter = new Tank($_POST['name'], $_POST['role'], (int)$_POST['health'], (int)$_POST['attack'],
+                        (int)$_POST['defense'], (int)$_POST['range'], (int)$_POST['shield']);
                     break;
+                default:
+                    $template->assign('error', "Invalid role selected. Unable to create character.");
+                    $template->display('error.tpl');
+                    return; // Stop further processing
             }
 
             $characterList->addCharacter($newCharacter);

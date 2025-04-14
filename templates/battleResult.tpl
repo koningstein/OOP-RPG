@@ -29,6 +29,9 @@
                     {if $battle->getFighter1()->getRole() == 'Healer'}
                         <p><strong>Spirit:</strong> {$battle->getFighter1()->getSpirit()}</p>
                     {/if}
+                    {if $battle->getFighter1()->getRole() == 'Tank'}
+                        <p><strong>Shield:</strong> {$battle->getFighter1()->getShield()}</p>
+                    {/if}
                 </div>
                 <div class="card-footer {if $battle->getFighter1()->getHealth() <= 0}bg-danger text-white{elseif $battle->getFighter2()->getHealth() <= 0}bg-success text-white{else}bg-warning{/if}">
                     {if $battle->getFighter1()->getHealth() <= 0}
@@ -74,6 +77,9 @@
                     {/if}
                     {if $battle->getFighter2()->getRole() == 'Healer'}
                         <p><strong>Spirit:</strong> {$battle->getFighter2()->getSpirit()}</p>
+                    {/if}
+                    {if $battle->getFighter2()->getRole() == 'Tank'}
+                        <p><strong>Shield:</strong> {$battle->getFighter2()->getShield()}</p>
                     {/if}
                 </div>
                 <div class="card-footer {if $battle->getFighter2()->getHealth() <= 0}bg-danger text-white{elseif $battle->getFighter1()->getHealth() <= 0}bg-success text-white{else}bg-warning{/if}">
