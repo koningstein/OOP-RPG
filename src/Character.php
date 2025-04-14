@@ -5,7 +5,7 @@ namespace Game;
 /**
  * Character class represents a game character with various attributes
  */
-class Character 
+abstract class Character
 {
     private Inventory $inventory;
     private string $name;
