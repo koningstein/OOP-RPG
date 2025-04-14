@@ -7,15 +7,18 @@ namespace Game;
  */
 class Battle 
 {
+    /**
+     * @var string[] $battleLog
+     */
     private array $battleLog = [];
     private int $maxRounds;
     private int $roundNumber = 1;
     private int $fighter1OriginalHealth;
     private int $fighter2OriginalHealth;
-    private Character|Warrior|Mage|Rogue|Healer $fighter1;
-    private Character|Warrior|Mage|Rogue|Healer $fighter2;
+    private Character $fighter1;
+    private Character $fighter2;
 
-    public function __construct(Character|Warrior|Mage|Rogue|Healer $fighter1, Character|Warrior|Mage|Rogue|Healer $fighter2, int $maxRounds = 10)
+    public function __construct(Character $fighter1, Character $fighter2, int $maxRounds = 10)
     {
         $this->fighter1 = $fighter1;
         $this->fighter2 = $fighter2;
@@ -124,7 +127,7 @@ class Battle
 //    }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getBattleLog(): array
     {
