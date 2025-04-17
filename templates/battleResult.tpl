@@ -39,7 +39,7 @@
                     {elseif $battle->getFighter2()->getHealth() <= 0}
                         <strong>VICTORY</strong>
                     {else}
-                        <strong>DRAW</strong>
+                        <strong>FIGHTING</strong>
                     {/if}
                 </div>
             </div>
@@ -88,32 +88,56 @@
                     {elseif $battle->getFighter1()->getHealth() <= 0}
                         <strong>VICTORY</strong>
                     {else}
-                        <strong>DRAW</strong>
+                        <strong>FIGHTING</strong>
                     {/if}
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Attack Button -->
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-dark text-white">
-                    <h3>Battle Functions</h3>
+    <!-- Battle Functions -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white text-center">
+            <h3>Attack Selection</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Fighter 1 Attack Selection -->
+                <div class="col-md-5">
+                    <h4 class="text-center">{$battle->getFighter1()->getName()}</h4>
+                    <form method="post" action="index.php?page=battleRound">
+                        <div class="form-group">
+                            <label for="fighter1Attack">Choose Attack:</label>
+                            <select name="fighter1Attack" id="fighter1Attack" class="form-control">
+                                <option value="normal">Normal Attack</option>
+                                {foreach from=$battle->getFighter1()->getSpecialAttacks() item=attack}
+                                    <option value="{$attack}">{$attack}</option>
+                                {/foreach}
+                            </select>
+                        </div>
                 </div>
-                <div class="card-body text-center">
-                    {if $battle->getFighter1()->getHealth() <= 0 || $battle->getFighter2()->getHealth() <= 0}
-                        <!-- Reset Health Button -->
-                        <form method="post" action="index.php?page=resetHealth">
-                            <button type="submit" class="btn btn-warning btn-lg">Reset Health</button>
-                        </form>
+
+                <!-- Fight Round or Reset Button -->
+                <div class="col-md-2 d-flex align-items-center justify-content-center">
+                    {if $battle->getFighter1()->getHealth() > 0 && $battle->getFighter2()->getHealth() > 0}
+                        <button type="submit" class="btn btn-success btn-lg">Fight Round</button>
                     {else}
-                        <!-- Attack Button -->
-                        <form method="post" action="index.php?page=battleRound">
-                            <button type="submit" class="btn btn-danger btn-lg">Attack</button>
-                        </form>
+                        <a href="index.php?page=resetHealth" class="btn btn-danger btn-lg">Reset Battle</a>
                     {/if}
+                </div>
+
+                <!-- Fighter 2 Attack Selection -->
+                <div class="col-md-5">
+                    <h4 class="text-center">{$battle->getFighter2()->getName()}</h4>
+                    <div class="form-group">
+                        <label for="fighter2Attack">Choose Attack:</label>
+                        <select name="fighter2Attack" id="fighter2Attack" class="form-control">
+                            <option value="normal">Normal Attack</option>
+                            {foreach from=$battle->getFighter2()->getSpecialAttacks() item=attack}
+                                <option value="{$attack}">{$attack}</option>
+                            {/foreach}
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,7 +154,11 @@
                     <div class="battle-log">
                         <ul>
                             {foreach from=$battle->getBattleLog() item=logEntry}
-                                <li>{$logEntry}</li>
+                                {if $logEntry != ""}
+                                    <li>{$logEntry}</li>
+                                {else}
+                                    <li style="list-style-type: none;">&nbsp;</li> <!-- Blank line without bullet point -->
+                                {/if}
                             {/foreach}
                         </ul>
                     </div>

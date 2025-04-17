@@ -16,6 +16,7 @@ abstract class Character
     private int $range;
     protected int $tempAttack = 0;
     protected int $tempDefense = 0;
+    protected array $specialAttacks = [];
 
     public function __construct(string $name,
                                 string $role,
@@ -170,6 +171,32 @@ abstract class Character
     }
 
     /**
+     * Returns the available special attacks
+     * @return array
+     */
+    public function getSpecialAttacks(): array
+    {
+        return $this->specialAttacks;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTempAttack(): int
+    {
+        return $this->tempAttack;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTempDefense(): int
+    {
+        return $this->tempDefense;
+    }
+
+
+    /**
      * Modifies the temporary attack and defense stats
      * @param int $attackMod
      * @param int $defenseMod
@@ -187,4 +214,7 @@ abstract class Character
         $this->tempAttack = 0;
         $this->tempDefense = 0;
     }
+
+    abstract public function executeSpecialAttack(string $attackName): string;
+    abstract public function resetAttributes(): void;
 } 
