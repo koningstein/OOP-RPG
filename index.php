@@ -124,9 +124,26 @@ switch($page)
     case 'battleRound':
         if (isset($_SESSION['battle'])) {
             $battle = $_SESSION['battle'];
-            $battle->executeTurn($battle->getFighter1(), $battle->getFighter2());
+            // Check and set attack for Fighter 1
+            if (!empty($_POST['fighter1Attack'])) {
+                $attack1 = $_POST['fighter1Attack'] === 'normal' ? null : $_POST['fighter1Attack'];
+                $battle->setAttackForFighter($battle->getFighter1(), $attack1);
+                $statusMessage[] = "{$battle->getFighter1()->getName()} selected " . ($attack1 ? $attack1 : "a normal attack") . ".";
+            }
+
+            // Check and set attack for Fighter 2
+            if (!empty($_POST['fighter2Attack'])) {
+                $attack2 = $_POST['fighter2Attack'] === 'normal' ? null : $_POST['fighter2Attack'];
+                $battle->setAttackForFighter($battle->getFighter2(), $attack2);
+                $statusMessage[] = "{$battle->getFighter2()->getName()} selected " . ($attack2 ? $attack2 : "a normal attack") . ".";
+            }
+
+            $battle->executeTurn();
             $_SESSION['battle'] = $battle;
             $template->assign('battle', $battle);
+            if (isset($statusMessage)) {
+                $template->assign('statusMessage', $statusMessage);
+            }
             $template->display('battleResult.tpl');
         } else {
             $template->assign('error', "No active battle found.");
