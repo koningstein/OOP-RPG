@@ -187,6 +187,9 @@
                         <a class="nav-link" href="index.php?page=battleForm">Battle Arena</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="index.php?page=characterStats">Character Statistics</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>

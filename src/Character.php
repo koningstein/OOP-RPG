@@ -16,6 +16,20 @@ abstract class Character
     private int $range;
     protected int $tempAttack = 0;
     protected int $tempDefense = 0;
+    public static int $totalCharacters = 0;
+
+    /**
+     * @var string[] $characterTypes
+     */
+    public static array $characterTypes = [];
+    /**
+     * @var string[] $existingNames
+     */
+    public static array $existingNames = [];
+
+    /**
+     * @var string[] $specialAttacks
+     */
     protected array $specialAttacks = [];
 
     public function __construct(string $name,
@@ -33,34 +47,11 @@ abstract class Character
         $this->range = $range;
 
         $this->inventory = new Inventory();
-    }
 
-//    /**
-//     * @param string $name
-//     * @param string $role
-//     * @param int $health
-//     * @param int $attack
-//     * @param int $defense
-//     * @param int $range
-//     * @return void
-//     */
-//    public function setCharacter(
-//        string $name,
-//        string $role,
-//        int $health,
-//        int $attack,
-//        int $defense = 5,
-//        int $range = 1
-//    ) {
-//        $this->name = $name;
-//        $this->role = $role;
-//        $this->health = $health;
-//        $this->attack = $attack;
-//        $this->defense = $defense;
-//        $this->range = $range;
-//
-//        $this->inventory = new Inventory();
-//    }
+        self::$totalCharacters++;
+        self::$characterTypes[] = $this->role;
+        self::$existingNames[] = $this->name;
+    }
 
     /**
      * Displays all stats of the character
@@ -172,7 +163,7 @@ abstract class Character
 
     /**
      * Returns the available special attacks
-     * @return array
+     * @return string[]
      */
     public function getSpecialAttacks(): array
     {
