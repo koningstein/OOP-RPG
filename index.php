@@ -16,12 +16,7 @@ session_start();
 $template = new Smarty();
 $template->setTemplateDir('templates');
 $characterList = $_SESSION['characterList'] ?? new CharacterList();
-$characterStats = $_SESSION['characterStats'] ?? null;
-if(is_array($characterStats)) {
-    Character::$existingNames = $characterStats['existingNames'];
-    Character::$characterTypes = $characterStats['characterTypes'];
-    Character::$totalCharacters = $characterStats['totalCharacters'];
-}
+Character::initializeSession();
 
 $page = $_GET['page'] ?? '';
 switch($page)
@@ -169,23 +164,29 @@ switch($page)
         break;
     case 'characterStats':
         // Assign variables to template
-        $template->assign('totalCharacters', Character::$totalCharacters);
-        $template->assign('characterTypes', Character::$characterTypes);
-        $template->assign('existingNames', Character::$existingNames);
+        $template->assign('totalCharacters', Character::getTotalCharacters());
+        $template->assign('characterTypes', Character::getAllCharacterTypes());
+        $template->assign('existingNames', Character::getAllCharacterNames());
         $template->assign('typeCounts', array_count_values(Character::$characterTypes));
 
         // Display the template
         $template->display('characterStatistics.tpl');
         break;
+    case 'resetStats':
+        Character::resetAllStatistics();
+        Character::saveSession();
+        header('Location: index.php?page=characterStats');
+        exit;
+
+    case 'recalculateStats':
+        Character::recalculateStatistics($characterList);
+        Character::saveSession();
+        header('Location: index.php?page=characterStats');
+        exit;
     default:
         $template->display('home.tpl');
 }
 //$_SESSION['characterList'] = null;
 $_SESSION['characterList'] = $characterList;
-
-$_SESSION['characterStats'] = [
-    'existingNames' => Character::$existingNames,
-    'characterTypes' => Character::$characterTypes,
-    'totalCharacters' => Character::$totalCharacters
-];
+Character::saveSession();
 

@@ -206,6 +206,82 @@ abstract class Character
         $this->tempDefense = 0;
     }
 
+    private static function loadFromSession(): void
+    {
+        if (isset($_SESSION['characterStats'])) {
+            $stats = $_SESSION['characterStats'];
+            self::$totalCharacters = $stats['totalCharacters'];
+            self::$characterTypes = $stats['characterTypes'];
+            self::$existingNames = $stats['existingNames'];
+        }
+    }
+
+    private static function saveToSession(): void
+    {
+        $_SESSION['characterStats'] = [
+            'totalCharacters' => self::$totalCharacters,
+            'characterTypes' => self::$characterTypes,
+            'existingNames' => self::$existingNames,
+        ];
+    }
+
+    public static function initializeSession(): void
+    {
+        self::loadFromSession();
+    }
+
+    public static function saveSession(): void
+    {
+        self::saveToSession();
+    }
+
+    public static function getTotalCharacters(): int
+    {
+        return self::$totalCharacters;
+    }
+
+    public static function getAllCharacterNames(): array
+    {
+        return self::$existingNames;
+    }
+
+    public static function getAllCharacterTypes(): array
+    {
+        return self::$characterTypes;
+    }
+
+    public static function resetAllStatistics(): void
+    {
+        self::$totalCharacters = 0;
+        self::$characterTypes = [];
+        self::$existingNames = [];
+    }
+
+    public static function recalculateStatistics(CharacterList $characterList): void
+    {
+        self::resetAllStatistics();
+        foreach ($characterList->getCharacters() as $character) {
+            self::$totalCharacters++;
+            self::$characterTypes[] = $character->getRole();
+            self::$existingNames[] = $character->getName();
+        }
+    }
+
+    public static function removeCharacterFromStats(string $name, string $role): void
+    {
+        $nameKey = array_search($name, self::$existingNames);
+        $roleKey = array_search($role, self::$characterTypes);
+
+        if ($nameKey !== false && $roleKey !== false) {
+            self::$totalCharacters--;
+            unset(self::$existingNames[$nameKey]);
+            unset(self::$characterTypes[$roleKey]);
+
+            self::$existingNames = array_values(self::$existingNames);
+            self::$characterTypes = array_values(self::$characterTypes);
+        }
+    }
+
     abstract public function executeSpecialAttack(string $attackName): string;
     abstract public function resetAttributes(): void;
 } 

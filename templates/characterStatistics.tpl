@@ -65,7 +65,10 @@
             </div>
         </div>
     </div>
-
+    <div class="text-center mt-4">
+        <a href="index.php?page=resetStats" class="btn btn-danger btn-lg">Reset Statistics</a>
+        <a href="index.php?page=recalculateStats" class="btn btn-warning btn-lg">Recalculate Statistics</a>
+    </div>
     <div class="mt-3">
         <a href="index.php" class="btn btn-primary">Back to Home</a>
         <a href="index.php?page=listCharacters" class="btn btn-secondary">Character List</a>
