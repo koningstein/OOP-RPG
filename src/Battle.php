@@ -17,6 +17,9 @@ class Battle
     private int $fighter2OriginalHealth;
     private Character $fighter1;
     private Character $fighter2;
+    /**
+     * @var array<string, string|null> $selectedAttacks
+     */
     private array $selectedAttacks = ['fighter1' => null, 'fighter2' => null]; // New property
 
 
