@@ -240,11 +240,17 @@ abstract class Character
         return self::$totalCharacters;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getAllCharacterNames(): array
     {
         return self::$existingNames;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getAllCharacterTypes(): array
     {
         return self::$characterTypes;

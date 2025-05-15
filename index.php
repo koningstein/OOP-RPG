@@ -10,6 +10,7 @@ use Game\Rogue;
 use Game\Warrior;
 use Game\Healer;
 use Game\Tank;
+use Game\Item;
 use Smarty\Smarty;
 
 session_start();
@@ -17,6 +18,10 @@ $template = new Smarty();
 $template->setTemplateDir('templates');
 $characterList = $_SESSION['characterList'] ?? new CharacterList();
 Character::initializeSession();
+
+$testSword = new Item("Iron Sword", "weapon", 50.0);
+$testArmor = new Item("Dragon Armor", "armor", 150.75);
+$testPotion = new Item("Health Potion", "consumable", 25.5);
 
 $page = $_GET['page'] ?? '';
 switch($page)
