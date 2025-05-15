@@ -11,11 +11,17 @@ use Game\Warrior;
 use Game\Healer;
 use Game\Tank;
 use Game\Item;
+use Game\Mysql;
+use Dotenv\Dotenv;
 use Smarty\Smarty;
 
 session_start();
 $template = new Smarty();
 $template->setTemplateDir('templates');
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 $characterList = $_SESSION['characterList'] ?? new CharacterList();
 Character::initializeSession();
 
@@ -188,6 +194,22 @@ switch($page)
         Character::saveSession();
         header('Location: index.php?page=characterStats');
         exit;
+    case 'testDatabase':
+        try {
+            // Database verbinding maken met .env variabelen
+            $database = new Mysql($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
+            if ($database->testConnection()) {
+                $message = "Database connection successful!";
+            } else {
+                $message = "Database connection failed!";
+            }
+        } catch (Exception $e) {
+            $message = "Error: " . $e->getMessage();
+        }
+
+        $template->assign('message', $message);
+        $template->display('testDatabase.tpl');
+    break;
     default:
         $template->display('home.tpl');
 }

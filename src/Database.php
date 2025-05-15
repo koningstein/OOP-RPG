@@ -7,7 +7,7 @@ namespace Game;
  * This interface ensures any database implementation provides the standard CRUD operations
  * Note: Implementations should establish database connection in their constructor
  */
-interface DatabaseInterface
+interface Database
 {
     /**
      * @param string $table
