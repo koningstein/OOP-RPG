@@ -10,11 +10,9 @@ namespace Game;
 interface DatabaseInterface
 {
     /**
-     * Inserts a new record into the specified table
-     *
-     * @param string $table The name of the table
-     * @param array $data Associative array of column => value pairs
-     * @return int The ID of the newly inserted record
+     * @param string $table
+     * @param string[] $data
+     * @return int
      */
     public function insert(string $table, array $data): int;
 
@@ -22,9 +20,9 @@ interface DatabaseInterface
      * Selects records from the specified table
      *
      * @param string $table The name of the table
-     * @param array $conditions Associative array of column => value pairs for WHERE clause
-     * @param array $fields Array of field names to select (default: ['*'] for all fields)
-     * @return array Array of associative arrays representing the selected records
+     * @param string[] $conditions Associative array of column => value pairs for WHERE clause
+     * @param string[] $fields Array of field names to select (default: ['*'] for all fields)
+     * @return string[] Array of associative arrays representing the selected records
      */
     public function select(string $table, array $conditions = [], array $fields = ['*']): array;
 
@@ -32,8 +30,8 @@ interface DatabaseInterface
      * Updates records in the specified table
      *
      * @param string $table The name of the table
-     * @param array $data Associative array of column => value pairs to update
-     * @param array $conditions Associative array of column => value pairs for WHERE clause
+     * @param string[] $data Associative array of column => value pairs to update
+     * @param string[] $conditions Associative array of column => value pairs for WHERE clause
      * @return int The number of affected rows
      */
     public function update(string $table, array $data, array $conditions): int;
@@ -42,7 +40,7 @@ interface DatabaseInterface
      * Deletes records from the specified table
      *
      * @param string $table The name of the table
-     * @param array $conditions Associative array of column => value pairs for WHERE clause
+     * @param string[] $conditions Associative array of column => value pairs for WHERE clause
      * @return int The number of deleted rows
      */
     public function delete(string $table, array $conditions): int;
