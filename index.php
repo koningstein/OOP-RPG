@@ -14,6 +14,7 @@ use Game\Item;
 use Game\Mysql;
 use Dotenv\Dotenv;
 use Smarty\Smarty;
+use Game\DatabaseManager;
 
 session_start();
 $template = new Smarty();
@@ -21,6 +22,12 @@ $template->setTemplateDir('templates');
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+try {
+    $database = new Mysql($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
+    DatabaseManager::setInstance($database);
+} catch (PDOException $e) {
+    $dbConnectionError = $e->getMessage();
+}
 
 $characterList = $_SESSION['characterList'] ?? new CharacterList();
 Character::initializeSession();
@@ -196,9 +203,9 @@ switch($page)
         exit;
     case 'testDatabase':
         try {
+            $database = DatabaseManager::getInstance();
             // Database verbinding maken met .env variabelen
-            $database = new Mysql($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
-            if ($database->testConnection()) {
+             if ($database->testConnection()) {
                 $message = "Database connection successful!";
             } else {
                 $message = "Database connection failed!";
