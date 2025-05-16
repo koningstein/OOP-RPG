@@ -217,6 +217,28 @@ switch($page)
         $template->assign('message', $message);
         $template->display('testDatabase.tpl');
     break;
+    case 'createItem':
+        $template->display('createItemForm.tpl');
+        break;
+    case 'saveItem':
+        if (!empty($_POST['name']) && !empty($_POST['type']) && !empty($_POST['value'])) {
+            // Create new Item object
+            $newItem = new Item($_POST['name'], $_POST['type'], (float)$_POST['value']);
+
+            // Try to save the item using the save method in the Item class
+            if ($newItem->save()) {
+                // Show success page
+                $template->assign('item', $newItem);
+                $template->display('itemCreated.tpl');
+            } else {
+                $template->assign('error', "Error saving item to database.");
+                $template->display('error.tpl');
+            }
+        } else {
+            $template->assign('error', "All fields are required.");
+            $template->display('error.tpl');
+        }
+        break;
     default:
         $template->display('home.tpl');
 }

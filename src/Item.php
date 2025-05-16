@@ -65,4 +65,41 @@ class Item
         return "Item: {$this->name}, Type: {$this->type}, Value: {$this->value}";
     }
 
+    /**
+     * Converts the item data to an array suitable for database insertion
+     * @return array<string, mixed>
+     */
+    public function toDatabaseArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'type' => $this->type,
+            'value' => $this->value
+        ];
+    }
+
+    /**
+     * Saves the item to the database
+     * @return bool True if successful, false otherwise
+     */
+    public function save(): bool
+    {
+        try {
+            // Get database instance from DatabaseManager
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return false;
+            }
+
+            // Insert item into database
+            $itemData = $this->toDatabaseArray();
+            $insertedId = $database->insert('items', $itemData);
+            // Set the ID for this item
+            $this->setId($insertedId);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
 }

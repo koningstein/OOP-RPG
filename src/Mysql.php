@@ -31,7 +31,26 @@ class Mysql implements Database
     public function insert(string $table, array $data): int
     {
         // TODO: Implement insert() method.
-        throw new Exception('Not implemented yet');
+        try {
+            // Build the column names and placeholders
+            $columns = array_keys($data);
+            $placeholders = ':' . implode(', :', $columns);
+            $columnList = implode(', ', $columns);
+            // Build the complete INSERT query
+            $sql = "INSERT INTO {$table} ({$columnList}) VALUES ({$placeholders})";
+            // Prepare the statement
+            $stmt = $this->connection->prepare($sql);
+            // Bind all values
+            foreach ($data as $key => $value) {
+                $stmt->bindValue(':' . $key, $value);
+            }
+            // Execute the statement
+            $stmt->execute();
+            // Return the last inserted ID
+            return (int)$this->connection->lastInsertId();
+        } catch (PDOException $e) {
+            throw new Exception("Insert failed: " . $e->getMessage());
+        }
     }
 
     /**
