@@ -17,14 +17,11 @@ interface Database
     public function insert(string $table, array $data): int;
 
     /**
-     * Selects records from the specified table
-     *
-     * @param string $table The name of the table
-     * @param string[] $conditions Associative array of column => value pairs for WHERE clause
-     * @param string[] $fields Array of field names to select (default: ['*'] for all fields)
-     * @return string[] Array of associative arrays representing the selected records
+     * @param string[][] $tableColumns
+     * @param string[] $conditions
+     * @return string[][]
      */
-    public function select(string $table, array $conditions = [], array $fields = ['*']): array;
+    public function select(array $tableColumns, array $conditions = []): array;
 
     /**
      * Updates records in the specified table

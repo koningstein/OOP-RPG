@@ -53,16 +53,15 @@ class Mysql implements Database
         }
     }
 
+
     /**
      * Selects records from the specified table
-     *
-     * @param string $table The name of the table
+     * @param string[][] $tableColumns The name of the table
      * @param string[] $conditions Associative array of column => value pairs for WHERE clause
-     * @param string[] $fields Array of field names to select (default: ['*'] for all fields)
-     * @return string[] Array of associative arrays representing the selected records
+     * @return string[][] Array of associative arrays representing the selected records
      * @throws Exception
      */
-    public function select(string $table, array $conditions = [], array $fields = ['*']): array
+    public function select(array $tableColumns, array $conditions = []): array
     {
         // TODO: Implement select() method.
         throw new Exception('Not implemented yet');
