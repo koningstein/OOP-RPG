@@ -193,6 +193,9 @@
                         <a class="nav-link" href="index.php?page=testDatabase">Database test</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="index.php?page=createItem">Create Item</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
