@@ -11,10 +11,24 @@ use Game\Warrior;
 use Game\Healer;
 use Game\Tank;
 use Smarty\Smarty;
+use Game\Mysql;
+use Game\DatabaseManager;
+use Dotenv\Dotenv;
 
 session_start();
 $template = new Smarty();
 $template->setTemplateDir('templates');
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+try{
+    $database = new Mysql($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
+    DatabaseManager::setInstance($database);
+}catch(PDOException $error){
+    throw new PDOException($error->getMessage());
+}
+
 $characterList = $_SESSION['characterList'] ?? new CharacterList();
 Character::initializeSession();
 
@@ -183,6 +197,14 @@ switch($page)
         Character::saveSession();
         header('Location: index.php?page=characterStats');
         exit;
+    case 'testDatabase':
+        if(DatabaseManager::getInstance()->testConnection()){
+            $template->assign('message', "Database connected.");
+        }else{
+            $template->assign('message', "Unable to connect to database.");
+        }
+        $template->display('testDatabase.tpl');
+        break;
     default:
         $template->display('home.tpl');
 }

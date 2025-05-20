@@ -1,8 +1,5 @@
-
 .idea/
-
 /vendor/
-
 composer.lock
-
 templates_c/
+.env

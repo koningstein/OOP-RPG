@@ -20,6 +20,7 @@ class Inventory
     public function addItem(string $item): void
     {
         $this->items[] = $item;
+
     }
 
     /**
