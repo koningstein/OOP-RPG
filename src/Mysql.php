@@ -64,32 +64,92 @@ class Mysql implements Database
     public function select(array $tableColumns, array $conditions = []): array
     {
         try {
-            // Build the SELECT clause
-            $columns = [];
-            foreach ($tableColumns as $table => $cols) {
-                foreach ($cols as $col) {
-                    if ($col === '*') {
-                        $columns[] = "{$table}.*";
+            // Build the SELECT part of the query
+            $selectParts = [];
+
+            foreach ($tableColumns as $table => $columns) {
+                foreach ($columns as $column) {
+                    if ($column === '*') {
+                        $selectParts[] = "$table.*";
                     } else {
-                        $columns[] = "{$table}.{$col}";
+                        $selectParts[] = "$table.$column";
                     }
                 }
             }
-            $selectClause = implode(', ', $columns);
 
-            // Build the FROM clause
+            $selectClause = implode(', ', $selectParts);
+
+            // Build the FROM part of the query
             $tables = array_keys($tableColumns);
             $fromClause = implode(', ', $tables);
+
             // Build the complete query
-            $query = "SELECT {$selectClause} FROM {$fromClause}";
-            // Prepare and execute the query
-            $statement = $this->connection->prepare($query);
-            $statement->execute();
-            // Fetch and return all results as an associative array
-            return $statement->fetchAll(PDO::FETCH_ASSOC);
+            $sql = "SELECT $selectClause FROM $fromClause";
+
+            // Add WHERE clause if conditions are provided
+            $whereConditions = [];
+            $parameters = [];
+            $paramCount = 0;
+
+            if (!empty($conditions)) {
+                foreach ($conditions as $key => $value) {
+                    $paramName = 'param' . $paramCount++;
+
+                    // Check for special operators in the key
+                    if (strpos($key, ' LIKE') !== false) {
+                        // LIKE operator
+                        $columnName = str_replace(' LIKE', '', $key);
+                        $whereConditions[] = "$columnName LIKE :$paramName";
+                        $parameters[$paramName] = "%$value%"; // Add wildcards
+                    } elseif (strpos($key, ' BETWEEN') !== false) {
+                        // BETWEEN operator
+                        $columnName = str_replace(' BETWEEN', '', $key);
+                        if (is_array($value) && count($value) === 2) {
+                            $whereConditions[] = "$columnName BETWEEN :param{$paramCount} AND :param" . ($paramCount + 1);
+                            $parameters['param' . $paramCount++] = $value[0];
+                            $parameters['param' . $paramCount] = $value[1];
+                        }
+                    } elseif (preg_match('/\s+[<>=!]+$/', $key)) {
+                        // Other comparison operators (>, <, >=, <=, !=)
+                        $parts = preg_split('/\s+/', trim($key), 2);
+                        if (count($parts) === 2) {
+                            $columnName = $parts[0];
+                            $operator = $parts[1];
+                            $whereConditions[] = "$columnName $operator :$paramName";
+                            $parameters[$paramName] = $value;
+                        }
+                    } elseif (strpos($key, '.') !== false && strpos($value, '.') !== false) {
+                        // For table.column=table.column comparisons (no parameter binding needed)
+                        $whereConditions[] = "$key=$value";
+                    } else {
+                        // Default: equality comparison
+                        $whereConditions[] = "$key = :$paramName";
+                        $parameters[$paramName] = $value;
+                    }
+                }
+
+                // Add WHERE clause to SQL
+                if (!empty($whereConditions)) {
+                    $sql .= " WHERE " . implode(' AND ', $whereConditions);
+                }
+            }
+
+            // Prepare and execute the statement
+            $stmt = $this->connection->prepare($sql);
+
+            // Bind parameters - the PDO::PARAM_* type will be determined automatically
+            foreach ($parameters as $name => $value) {
+                // Let PDO handle the parameter type based on PHP variable type
+                // This works correctly for strings (PDO::PARAM_STR), integers (PDO::PARAM_INT), etc.
+                $stmt->bindValue(":$name", $value);
+            }
+
+            $stmt->execute();
+
+            // Return all results
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
-            // Handle any PDO exceptions
-            throw new PDOException("Error executing SELECT query: " . $e->getMessage());
+            throw new Exception("Select failed: " . $e->getMessage());
         }
     }
 

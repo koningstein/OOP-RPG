@@ -241,7 +241,31 @@ switch($page)
     case 'listItems':
         try {
             $itemList = new ItemList(); // Maak een nieuwe ItemList instance
-            $itemList->loadAllFromDatabase(); // Laad alle items uit de database
+            $queryParams = [];
+
+            if (!empty($_GET['id'])) { // ID filter
+                $queryParams['id'] = (int)$_GET['id'];
+                $template->assign('selectedId', $_GET['id']);
+            }
+            if (!empty($_GET['type'])) { // Type filter
+                $queryParams['type'] = $_GET['type'];
+                $template->assign('selectedType', $_GET['type']);
+            }
+            if (isset($_GET['minValue']) && is_numeric($_GET['minValue'])) { // Min value filter
+                $queryParams['minValue'] = (float)$_GET['minValue'];
+                $template->assign('minValue', $_GET['minValue']);
+            }
+            if (!empty($_GET['name'])) { // Name search
+                $queryParams['name'] = $_GET['name'];
+                $template->assign('searchName', $_GET['name']);
+            }
+
+            // Laad items op basis van parameters of alle items als er geen parameters zijn
+            if (!empty($queryParams)) {
+                $itemList->loadByParams($queryParams);
+            } else {
+                $itemList->loadAllFromDatabase();
+            }
             // Wijs de items toe aan het template
             $template->assign('items', $itemList->getItems());
             $template->display('itemList.tpl');

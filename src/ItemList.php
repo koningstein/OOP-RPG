@@ -82,6 +82,87 @@ class ItemList
     }
 
     /**
+     * Loads items from the database based on query parameters
+     *
+     * @param array<string, mixed> $params Query parameters
+     * @return ItemList The populated ItemList object (for method chaining)
+     */
+    public function loadByParams(array $params = []): ItemList
+    {
+        try {
+            // Get database instance
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return $this; // Return current object if database not available
+            }
+            $conditions = []; // Build conditions based on params
+            if (!empty($params['id'])) {   // Handle specific ID search
+                $conditions['id'] = (int)$params['id'];
+            }
+
+            if (!empty($params['type'])) { // Handle type filter
+                $conditions['type'] = $params['type'];
+            }
+
+            if (isset($params['minValue']) && $params['minValue'] > 0) { // Handle minimum value filter
+                $conditions['value >='] = (float)$params['minValue'];
+            }
+
+            if ( !empty($params['name'])) { // Handle name search (with LIKE)
+                $conditions['name LIKE'] = $params['name'];
+            }
+
+            // Get items from database with the specified conditions
+            $rows = $database->select(['items' => ['*']], $conditions);
+            // Convert each row to an Item object and add to list
+            foreach ($rows as $row) {
+                $this->addItem($this->createItemFromDatabaseRow($row));
+            }
+            return $this; // Return this for method chaining
+        } catch (\Exception $e) {
+            // You could log the error here
+            // For now, just return the current object
+            return $this;
+        }
+    }
+
+    /**
+     * Finds a specific item by ID
+     *
+     * @param int $id The ID to search for
+     * @return Item|null The found Item object or null if not found
+     */
+    public function findById(int $id): ?Item
+    {
+        // First check if the item is already in the list
+        foreach ($this->items as $item) {
+            if ($item->getId() === $id) {
+                return $item;
+            }
+        }
+
+        // If not, try to load it from the database
+        try {
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return null;
+            }
+
+            $rows = $database->select(['items' => ['*']], ['id' => $id]);
+
+            if (count($rows) > 0) {
+                $item = $this->createItemFromDatabaseRow($rows[0]);
+                $this->addItem($item); // Add to our list for future reference
+                return $item;
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
      * Creates an Item object from a database row
      *
      * @param array<string, mixed> $row Database row
