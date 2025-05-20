@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use Game\Character;
 use Game\Battle;
 use Game\CharacterList;
+use Game\ItemList;
 use Game\Mage;
 use Game\Rogue;
 use Game\Warrior;
@@ -239,12 +240,13 @@ switch($page)
         break;
     case 'listItems':
         try {
-            $items = Item::getAllFromDatabase(); // Retrieve all items from the database
-            $template->assign('items', $items);// Assign items to the template
-//            $template->assign('totalItems', count($items));// Calculate the total number of items
-            $template->display('itemList.tpl');// Display the item list template
+            $itemList = new ItemList(); // Maak een nieuwe ItemList instance
+            $itemList->loadAllFromDatabase(); // Laad alle items uit de database
+            // Wijs de items toe aan het template
+            $template->assign('items', $itemList->getItems());
+            $template->display('itemList.tpl');
         } catch (Exception $e) {
-            $template->assign('error', "Error retrieving items: " . $e->getMessage()); // Handle database errors
+            $template->assign('error', "Error retrieving items: " . $e->getMessage());
             $template->display('error.tpl');
         }
         break;
