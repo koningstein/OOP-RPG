@@ -131,6 +131,92 @@ class Item
     }
 
     /**
+     * Find an item by its ID
+     * @param int $id The ID to search for
+     * @return Item|null The found Item object or null if not found
+     */
+    public static function findById(int $id): ?Item
+    {
+        try {
+            // Get database instance
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return null;
+            }
+
+            // Get item from database by ID
+            $rows = $database->select(['items' => ['*']], ['id' => $id]);
+
+            // Return the first row as an Item object or null if no rows
+            if (count($rows) > 0) {
+                return self::createFromDatabaseRow($rows[0]);
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Find items by type
+     * @param string $type The type to search for
+     * @return Item[] Array of matching Item objects
+     */
+    public static function findByType(string $type): array
+    {
+        try {
+            // Get database instance
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return [];
+            }
+
+            // Get items from database by type
+            $rows = $database->select(['items' => ['*']], ['type' => $type]);
+
+            // Convert each row to an Item object
+            $items = [];
+            foreach ($rows as $row) {
+                $items[] = self::createFromDatabaseRow($row);
+            }
+
+            return $items;
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Find items with value greater than specified amount
+     * @param float $minValue The minimum value
+     * @return Item[] Array of matching Item objects
+     */
+    public static function findExpensiveItems(float $minValue): array
+    {
+        try {
+            // Get database instance
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return [];
+            }
+
+            // Get expensive items from database
+            $rows = $database->select(['items' => ['*']], ['value >' => $minValue]);
+
+            // Convert each row to an Item object
+            $items = [];
+            foreach ($rows as $row) {
+                $items[] = self::createFromDatabaseRow($row);
+            }
+
+            return $items;
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
+
+    /**
      * Creates an Item object from a database row.
      *
      * @param string[] $row Associative array representing a database row
