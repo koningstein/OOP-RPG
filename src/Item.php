@@ -102,4 +102,47 @@ class Item
         }
     }
 
+    /**
+     * Retrieves all items from the database.
+     *
+     * @return Item[] Array of Item objects
+     */
+    public static function getAllFromDatabase(): array
+    {
+        try {
+            // Get database instance from DatabaseManager
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                throw new \Exception("No database instance available.");
+            }
+            // Fetch all rows from the 'items' table
+            $rows = $database->select(['items' => ['*']]);
+            // Convert each row to an Item object
+            $items = [];
+            foreach ($rows as $row) {
+                $items[] = self::createFromDatabaseRow($row);
+            }
+            return $items;
+        } catch (\Exception $e) {
+            // Handle database errors
+            error_log("Error retrieving items from database: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Creates an Item object from a database row.
+     *
+     * @param string[] $row Associative array representing a database row
+     * @return Item The created Item object
+     */
+    private static function createFromDatabaseRow(array $row): Item
+    {
+        return new self(
+            $row['name'],
+            $row['type'],
+            (float)$row['value'],
+            isset($row['id']) ? (int)$row['id'] : null
+        );
+    }
 }

@@ -224,11 +224,9 @@ switch($page)
         if (!empty($_POST['name']) && !empty($_POST['type']) && !empty($_POST['value'])) {
             // Create new Item object
             $newItem = new Item($_POST['name'], $_POST['type'], (float)$_POST['value']);
-
             // Try to save the item using the save method in the Item class
             if ($newItem->save()) {
-                // Show success page
-                $template->assign('item', $newItem);
+                $template->assign('item', $newItem);  // Show success page
                 $template->display('itemCreated.tpl');
             } else {
                 $template->assign('error', "Error saving item to database.");
@@ -236,6 +234,17 @@ switch($page)
             }
         } else {
             $template->assign('error', "All fields are required.");
+            $template->display('error.tpl');
+        }
+        break;
+    case 'listItems':
+        try {
+            $items = Item::getAllFromDatabase(); // Retrieve all items from the database
+            $template->assign('items', $items);// Assign items to the template
+//            $template->assign('totalItems', count($items));// Calculate the total number of items
+            $template->display('itemList.tpl');// Display the item list template
+        } catch (Exception $e) {
+            $template->assign('error', "Error retrieving items: " . $e->getMessage()); // Handle database errors
             $template->display('error.tpl');
         }
         break;

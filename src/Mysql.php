@@ -63,8 +63,34 @@ class Mysql implements Database
      */
     public function select(array $tableColumns, array $conditions = []): array
     {
-        // TODO: Implement select() method.
-        throw new Exception('Not implemented yet');
+        try {
+            // Build the SELECT clause
+            $columns = [];
+            foreach ($tableColumns as $table => $cols) {
+                foreach ($cols as $col) {
+                    if ($col === '*') {
+                        $columns[] = "{$table}.*";
+                    } else {
+                        $columns[] = "{$table}.{$col}";
+                    }
+                }
+            }
+            $selectClause = implode(', ', $columns);
+
+            // Build the FROM clause
+            $tables = array_keys($tableColumns);
+            $fromClause = implode(', ', $tables);
+            // Build the complete query
+            $query = "SELECT {$selectClause} FROM {$fromClause}";
+            // Prepare and execute the query
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+            // Fetch and return all results as an associative array
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Handle any PDO exceptions
+            throw new PDOException("Error executing SELECT query: " . $e->getMessage());
+        }
     }
 
     /**
