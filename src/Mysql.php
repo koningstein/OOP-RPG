@@ -32,7 +32,9 @@ class Mysql implements Database
     /**
      *  INSERT INTO tablename SET kolom1=waarde1, kolom2=waarde2
      *  INSERT INTO tablename (kolom1, kolom2, kolom3) VALUES (waarde1, waarde2, waarde3)
-     *   $table = user, data = ['username', 'password']
+     *   $table = user, data = ['username' => $username, 'password' => $password]
+     *  SQL = INSERT INTO user (username, password) values (':username', ':password')
+     *  bindValue(':username', $username);
      *  return id van rij die geinsert is
      * @param string $table
      * @param string[] $data
@@ -41,8 +43,25 @@ class Mysql implements Database
      */
     public function insert(string $table, array $data): int
     {
-        // TODO: Implement insert() method.
-        throw new Exception('Not implemented yet');
+        try {
+            // TODO: Implement insert() method.
+            $columns = array_keys($data); // ['username', 'password'] => username, password
+            $placeholders = ':' . implode(', :', $columns); // :username, :password, :email, :phoneNr
+            $colomnList = implode(', ', $columns); // username, password, email, phoneNr
+            // opbouwen query
+            $sql = "INSERT INTO {$table} ({$colomnList}) VALUES  ({$placeholders})";
+            $statement = $this->connection->prepare($sql);
+            // data koppelen aan PDO variabelen (bijv :username)
+            foreach ($data as $key => $value) {
+                $statement->bindValue(':' . $key, $value);  // :username, $username
+            }
+            // uitvoeren query
+            $statement->execute();
+            // de id opvragen, zodat we het object kunnen updaten welk id hij heeft gekregen in de db
+            return $this->connection->lastInsertId();
+        } catch(PDOException $error) {
+            throw new PDOException("Insert failed:". $error->getMessage());
+        }
     }
 
     /**
@@ -114,13 +133,5 @@ class Mysql implements Database
         }
     }
 
-    /**
-     * @return int
-     * @throws Exception
-     */
-    public function getLastInsertId(): int
-    {
-        // TODO: Implement getLastInsertId() method.
-        throw new Exception('Not implemented yet');
-    }
+
 }

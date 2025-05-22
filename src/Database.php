@@ -68,10 +68,6 @@ interface Database
      */
     public function testConnection(): bool;
 
-    /**
-     * @return int
-     */
-    public function getLastInsertId(): int;
 
 
 

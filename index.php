@@ -14,6 +14,7 @@ use Smarty\Smarty;
 use Game\Mysql;
 use Game\DatabaseManager;
 use Dotenv\Dotenv;
+use Game\Item;
 
 session_start();
 $template = new Smarty();
@@ -31,6 +32,10 @@ try{
 
 $characterList = $_SESSION['characterList'] ?? new CharacterList();
 Character::initializeSession();
+
+$testSword = new Item("Iron Sword", "Weapon", 50.0);
+$testArmor = new Item("Dragon Armor", "armor", 150.75);
+$testPotion = new Item("Health Potion", "consumable", 25.5);
 
 $page = $_GET['page'] ?? '';
 switch($page)
@@ -205,10 +210,30 @@ switch($page)
         }
         $template->display('testDatabase.tpl');
         break;
+    case "createItem":
+        $template->display('createItemForm.tpl');
+        break;
+    case "saveItem":
+        if(!empty($_POST['name']) && !empty($_POST['type']) && !empty($_POST['value'])){
+            $item = new Item($_POST['name'], $_POST['type'], $_POST['value']);
+            if($item->save()){
+                $template->assign('item', $item);
+                $template->display('itemCreated.tpl');
+            }else{
+                $template->assign('error', "Unable to save item.");
+                $template->display('error.tpl');
+            }
+        }else{
+            $template->assign('error', "Missing item name or type.");
+            $template->display('error.tpl');
+        }
+        break;
     default:
         $template->display('home.tpl');
 }
 //$_SESSION['characterList'] = null;
 $_SESSION['characterList'] = $characterList;
 Character::saveSession();
+
+var_dump($testSword);
 
