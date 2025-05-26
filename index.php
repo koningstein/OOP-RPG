@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use Game\Character;
 use Game\Battle;
 use Game\CharacterList;
+use Game\ItemList;
 use Game\Mage;
 use Game\Rogue;
 use Game\Warrior;
@@ -227,6 +228,13 @@ switch($page)
             $template->assign('error', "Missing item name or type.");
             $template->display('error.tpl');
         }
+        break;
+    case 'listItems':
+        $itemList = new ItemList();
+        $itemList->loadAllFromDatabase();
+        $template->assign('items', $itemList->getItems());
+        $template->assign('count', $itemList->count());
+        $template->display('itemList.tpl');
         break;
     default:
         $template->display('home.tpl');

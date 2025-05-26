@@ -101,7 +101,7 @@ class Mysql implements Database
      *  SELECT user.name FROM user WHERE id=5
      *  SELECT order.date FROM order WHERE order.date BETWEEN 10-5-2002 AND 15-5-2003
      *
-     *  $tableColumns = ['user' => [name, email]
+     *  $tableColumns = ['user' => [name, email] *
      *           'order'=> [ id, date]
      *  ]
      *  $conditions = [
@@ -113,10 +113,37 @@ class Mysql implements Database
      * @return array
      * @throws Exception
      */
-    public function select(array $tableColumns, array $conditions): array
+    public function select(array $tableColumns, array $conditions = []): array
     {
-        // TODO: Implement select() method.
-        throw new Exception('Not implemented yet');
+        try {
+
+            // TODO: Implement select() method.
+            $columns = [];
+            foreach ($tableColumns as $table => $cols) {
+                foreach ($cols as $col) {
+                    if ($col === '*') {
+                        $columns[] = "{$table}.*"; // user.*
+                    } else {
+                        $columns[] = "{$table}.{$col}"; // user.name of user.email
+                    }
+                }
+            }
+            /*
+             * $columns = ['user.name', 'user.email', 'order.*']
+             */
+
+            $select = implode(', ', $columns);  // user.*, order.date
+            $tables = array_keys($tableColumns); // [user, order]
+            $from = implode(', ', $tables); // user, order
+
+            $query = "SELECT {$select} FROM {$from}"; // SELECT user.*, order.date FROM user, order
+            $statement = $this->connection->prepare($query);
+            $statement->execute();
+
+            return $statement->fetchAll(PDO::FETCH_ASSOC); //['name' => value]
+        }catch(PDOException $error){
+            throw new PDOException("Error bij select query: ".$error->getMessage());
+        }
     }
 
     /**
