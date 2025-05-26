@@ -131,10 +131,10 @@ class Item
             'name' => $this->name,
             'type' => $this->type,
             'value' => $this->value,
-            'attackBonus' => $this->attackBonus,
-            'defenseBonus' => $this->defenceBonus,
-            'healthBonus' => $this->healthBonus,
-            'specialEffect' => $this->specialEffect
+            'attack_bonus' => $this->attackBonus,
+            'defense_bonus' => $this->defenceBonus,
+            'health_bonus' => $this->healthBonus,
+            'special_effect' => $this->specialEffect
         ];
     }
 
@@ -158,6 +158,7 @@ class Item
             $this->setId($insertedId);
             return true;
         } catch (\Exception $e) {
+            throw new \Exception("Insert failed: " . $e->getMessage());
             return false;
         }
     }

@@ -247,6 +247,7 @@ switch($page)
                 $template->assign('item', $newItem);
                 $template->display('itemCreated.tpl');
             } else {
+                var_dump($newItem);
                 $template->assign('error', "Error saving item to database.");
                 $template->display('error.tpl');
             }
