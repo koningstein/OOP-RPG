@@ -88,17 +88,8 @@
                         <th>Name</th>
                         <th>Type</th>
                         <th>Value</th>
+                        <th>Effects</th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {foreach from=$items item=item}
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Value</th>
-                            <th>Effects</th>
-                        </tr>
                     </thead>
                     <tbody>
                         {foreach from=$items item=item}

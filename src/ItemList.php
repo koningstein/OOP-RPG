@@ -113,7 +113,7 @@ class ItemList
             }
 
             // Get items from database with the specified conditions
-            $rows = $database->select(['items' => ['*']], $conditions);
+            $rows = $database->select(['item' => ['*']], $conditions);
             // Convert each row to an Item object and add to list
             foreach ($rows as $row) {
                 $this->addItem($this->createItemFromDatabaseRow($row));
@@ -148,7 +148,7 @@ class ItemList
                 return null;
             }
 
-            $rows = $database->select(['items' => ['*']], ['id' => $id]);
+            $rows = $database->select(['item' => ['*']], ['id' => $id]);
 
             if (count($rows) > 0) {
                 $item = $this->createItemFromDatabaseRow($rows[0]);
