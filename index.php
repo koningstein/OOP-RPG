@@ -227,8 +227,19 @@ switch($page)
             $healthBonus = 0;
             $specialEffect = "";
 
+            // Type-specifieke waarden
+            if ($_POST['type'] === 'weapon' || $_POST['type'] === 'armor' || $_POST['type'] === 'consumable') {
+                $attackBonus = (int)($_POST['attackBonus'] ?? 0);
+                $defenseBonus = (int)($_POST['defenseBonus'] ?? 0);
+            }
+
+            if ($_POST['type'] === 'consumable') {
+                $healthBonus = (int)($_POST['healthBonus'] ?? 0);
+                $specialEffect = $_POST['specialEffect'] ?? "";
+            }
             // Create new Item object
-            $newItem = new Item($_POST['name'], $_POST['type'], (float)$_POST['value']);
+            $newItem = new Item($_POST['name'], $_POST['type'], (float)$_POST['value'],
+                $attackBonus, $defenseBonus, $healthBonus, $specialEffect);
 
             // Try to save the item using the save method in the Item class
             if ($newItem->save()) {
