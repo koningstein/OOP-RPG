@@ -311,6 +311,44 @@ switch($page)
             $template->display('error.tpl');
         }
         break;
+    case 'deleteItem':
+        if (!empty($_GET['id'])) {
+            $itemId = (int)$_GET['id'];
+            $item = Item::loadFromDatabase($itemId);
+            if ($item !== null) {
+                $template->assign('item', $item);
+                $template->display('deleteItemConfirm.tpl');
+            } else {
+                $template->assign('error', "Item not found.");
+                $template->display('error.tpl');
+            }
+        } else {
+            $template->assign('error', "No item ID provided.");
+            $template->display('error.tpl');
+        }
+        break;
+    case 'deleteItemConfirmed':
+        if (!empty($_POST['id'])) {
+            $itemId = (int)$_POST['id'];
+            $item = Item::loadFromDatabase($itemId);
+            if ($item !== null) {
+                if ($item->delete()) {
+                    $template->assign('item', $item);
+                    $template->display('itemDeleted.tpl');
+                } else {
+                    $template->assign('error', "Unable to delete item.");
+                    $template->display('error.tpl');
+                }
+            } else {
+                $template->assign('error', "Item not found.");
+                $template->display('error.tpl');
+            }
+        } else {
+            $template->assign('error', "No item ID provided.");
+            $template->display('error.tpl');
+        }
+        break;
+
     default:
         $template->display('home.tpl');
 }

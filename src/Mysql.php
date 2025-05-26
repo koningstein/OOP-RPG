@@ -222,20 +222,23 @@ class Mysql implements Database
      */
     public function delete(string $table, array $conditions): int
     {
-        // TODO: Implement delete() method.
-        throw new Exception('Not implemented yet');
-    }
-
-    /**
-     * Gets the ID of the last inserted record
-     *
-     * @return int The last insert ID
-     * @throws Exception
-     */
-    public function getLastInsertId(): int
-    {
-        // TODO: Implement getLastInsertId() method.
-        throw new Exception('Not implemented yet');
+        try {
+            // Controleer of er condities zijn meegegeven (veiligheid)
+            if (empty($conditions)) {
+                throw new Exception("Conditions are required for delete operations for safety reasons");
+            }
+            // Controleer specifiek of er een ID is meegegeven
+            if (!isset($conditions['id'])) {
+                throw new Exception("ID is required for delete operations");
+            }
+            $sql = "DELETE FROM {$table} WHERE id = :id"; // Bouw de DELETE query (alleen ID-gebaseerd voor veiligheid)
+            $stmt = $this->connection->prepare($sql); // Prepare de statement
+            $stmt->bindValue(':id', $conditions['id']); // Bind de ID parameter
+            $stmt->execute(); // Voer de query uit
+            return $stmt->rowCount(); // Return het aantal affected rows
+        } catch (PDOException $e) {
+            throw new Exception("Delete failed: " . $e->getMessage());
+        }
     }
 
     /**

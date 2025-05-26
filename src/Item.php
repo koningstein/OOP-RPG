@@ -156,4 +156,29 @@ class Item
             return null;
         }
     }
+
+    /**
+     * Verwijdert het huidige item uit de database
+     * @return bool True if successful, false otherwise
+     */
+    public function delete(): bool
+    {
+        try {
+            // Controleer of het item een geldig ID heeft
+            if ($this->id === null) {
+                return false;
+            }
+            // Haal database instance op via DatabaseManager
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return false;
+            }
+            // Roep delete() aan met conditions array voor ID
+            $affectedRows = $database->delete('items', ['id' => $this->id]);
+            // Return true bij succes (affected rows > 0), false bij falen
+            return $affectedRows > 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }
