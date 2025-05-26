@@ -179,7 +179,7 @@ class Item
             }
             $itemData = $this->toDatabaseArray(); // Gebruik toDatabaseArray() voor de update data
             // Roep update() aan met conditions array voor ID
-            $affectedRows = $database->update("items", $itemData, ['id' => $this->id]);
+            $affectedRows = $database->update("item", $itemData, ['id' => $this->id]);
             // Return true bij succes (affected rows > 0), false bij falen
             return $affectedRows > 0;
         } catch (\Exception $error) {
@@ -201,7 +201,7 @@ class Item
             }
 
             // Gebruik select() methode met WHERE condition voor het ID
-            $results = $database->select(['items' => ['*']], ['id' => $id]);
+            $results = $database->select(['item' => ['*']], ['id' => $id]);
             if (empty($results)) {
                 return null;
             }
