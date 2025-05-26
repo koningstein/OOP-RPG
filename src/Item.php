@@ -158,7 +158,7 @@ class Item
             $this->setId($insertedId);
             return true;
         } catch (\Exception $e) {
-            throw new \Exception("Insert failed: " . $e->getMessage());
+            //throw new \Exception("Insert failed: " . $e->getMessage());
             return false;
         }
     }
