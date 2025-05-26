@@ -137,7 +137,54 @@ class Mysql implements Database
             $from = implode(', ', $tables); // user, order
 
             $query = "SELECT {$select} FROM {$from}"; // SELECT user.*, order.date FROM user, order
+
+            $whereConditions = [];
+            $parameters = [];
+            $paramCount = 0;
+            if(!empty($conditions)) {
+                foreach ($conditions as $key => $value) {
+                    $paramName = "param".$paramCount++;
+
+                    if(str_contains($key, ' LIKE')) // ['user.username LIKE' => $var]
+                    {
+                        $columnName = str_replace(' LIKE', '', $key); // user.username
+                        $whereConditions[] = "{$columnName} LIKE :{$paramName}"; // user.username LIKE :param1
+                        $parameters[$paramName] = "%{$value}%";// $paraments['param1'] = $value
+                    }elseif(str_contains($key, ' BETWEEN'))
+                    {
+                        $columnName = str_replace(' BETWEEN', '', $key); // order.date
+                        if(is_array($value) && count($value) === 2) {
+                            $whereConditions[] = "$columnName BETWEEN :param{$paramCount} AND :param".$paramCount+1;
+                            $parameters['param'.$paramCount++] = $value[0];
+                            $parameters['param'.$paramCount] = $value[1];
+                        }
+                        // (>, <, >=, <=, !=)
+                    }elseif(preg_match('/\s+[<>=!]+$/', $key)) // ['item.value >' =>  10]
+                    {
+                        $parts = preg_split('/\s+/', trim($key), 2); //['item.value', >]
+                        $columnName = $parts[0];
+                        $operator = $parts[1];
+                        $whereConditions[] = "{$columnName} {$operator} :{$paramName}";
+                        $parameters[$paramName] = $value;
+                    }elseif(str_contains($key, '.') && str_contains($value, '.'))
+                    {
+                       // [user.id => order.userid]
+                        $whereConditions[] = "$key = $value";
+                    }else{
+                        $whereConditions[] = "$key = :$paramName";
+                        $parameters[$paramName] = $value;
+                    }
+                }
+                if(!empty($whereConditions)) {
+                    $query .= " WHERE ".implode(' AND ', $whereConditions);
+                }
+            }
             $statement = $this->connection->prepare($query);
+            foreach($parameters as $name => $value) {
+                $statement->bindValue(":$name", $value); // WHERE user.username LIKE %bla%
+            }
+
+
             $statement->execute();
 
             return $statement->fetchAll(PDO::FETCH_ASSOC); //['name' => value]
