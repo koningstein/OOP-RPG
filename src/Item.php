@@ -117,7 +117,11 @@ class Item
         return [
             'name' => $this->name,
             'type' => $this->type,
-            'value' => $this->value
+            'value' => $this->value,
+            'attackBonus' => $this->attackBonus,
+            'defenseBonus' => $this->defenceBonus,
+            'healthBonus' => $this->healthBonus,
+            'specialEffect' => $this->specialEffect
         ];
     }
 

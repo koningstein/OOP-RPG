@@ -222,6 +222,11 @@ switch($page)
         break;
     case 'saveItem':
         if (!empty($_POST['name']) && !empty($_POST['type']) && !empty($_POST['value'])) {
+            $attackBonus = 0;
+            $defenseBonus = 0;
+            $healthBonus = 0;
+            $specialEffect = "";
+
             // Create new Item object
             $newItem = new Item($_POST['name'], $_POST['type'], (float)$_POST['value']);
 
