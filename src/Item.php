@@ -29,6 +29,11 @@ class Item
         $this->specialEffect = $specialEffect;
         $this->id = $id;
 
+        if ($this->type === 'misc' && $this->attackBonus === 0 && $this->defenceBonus === 0
+            && $this->healthBonus === 0 && $this->specialEffect === "") {
+            $this->generateMysteryEffect();
+        }
+
     }
 
     /**
@@ -106,6 +111,14 @@ class Item
     public function toString(): string
     {
         return "Item: {$this->name}, Type: {$this->type}, Value: {$this->value}";
+    }
+
+    private function generateMysteryEffect(): void
+    {
+        $this->attackBonus = rand(1, 10);
+        $this->defenceBonus = rand(1, 10);
+        $this->healthBonus = rand(1, 10);
+        $this->specialEffect = "Mystery effect #" . rand(100, 999);
     }
 
 }
