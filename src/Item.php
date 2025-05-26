@@ -11,13 +11,24 @@ class Item
     private string $name;
     private string $type;
     private float $value;
+    private int $attackBonus = 0;
+    private int $defenceBonus = 0;
+    private int $healthBonus= 0;
+    private string $specialEffect;
 
-    public function __construct(string $name, string $type, float $value, ?int $id = null)
+    public function __construct(string $name, string $type, float $value, int $attackBonus = 0,
+                                int $defenseBonus = 0, int $healthBonus = 0,
+                                string $specialEffect = "",  ?int $id = null)
     {
         $this->name = $name;
         $this->type = $type;
         $this->value = $value;
+        $this->attackBonus = $attackBonus;
+        $this->defenceBonus = $defenseBonus;
+        $this->healthBonus = $healthBonus;
+        $this->specialEffect = $specialEffect;
         $this->id = $id;
+
     }
 
     /**
@@ -50,6 +61,38 @@ class Item
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAttackBonus(): int
+    {
+        return $this->attackBonus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefenceBonus(): int
+    {
+        return $this->defenceBonus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHealthBonus(): int
+    {
+        return $this->healthBonus;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSpecialEffect(): string
+    {
+        return $this->specialEffect;
     }
 
     /**
