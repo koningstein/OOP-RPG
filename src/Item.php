@@ -153,7 +153,7 @@ class Item
 
             // Insert item into database
             $itemData = $this->toDatabaseArray();
-            $insertedId = $database->insert('items', $itemData);
+            $insertedId = $database->insert('item', $itemData);
             // Set the ID for this item
             $this->setId($insertedId);
             return true;
