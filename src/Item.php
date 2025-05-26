@@ -101,4 +101,59 @@ class Item
             return false;
         }
     }
+
+    /**
+     * Update het huidige item in de database
+     * @return bool
+     */
+    public function update(): bool
+    {
+        try {
+            if ($this->id === null) { // Controleer of het item een geldig ID heeft
+                return false;
+            }
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return false;
+            }
+            $itemData = $this->toDatabaseArray(); // Gebruik toDatabaseArray() voor de update data
+            // Roep update() aan met conditions array voor ID
+            $affectedRows = $database->update("items", $itemData, ['id' => $this->id]);
+            // Return true bij succes (affected rows > 0), false bij falen
+            return $affectedRows > 0;
+        } catch (\Exception $error) {
+            return false;
+        }
+    }
+
+    /**
+     * Laad een item uit de database op basis van ID
+     * @param int $id
+     * @return Item|null
+     */
+    public static function loadFromDatabase(int $id): ?Item
+    {
+        try {
+            $database = DatabaseManager::getInstance();
+            if ($database === null) {
+                return null;
+            }
+
+            // Gebruik select() methode met WHERE condition voor het ID
+            $results = $database->select(['items' => ['*']], ['id' => $id]);
+            if (empty($results)) {
+                return null;
+            }
+            $row = $results[0];
+            // Return een nieuw Item object
+            return new Item(
+                $row['name'],
+                $row['type'],
+                (float)$row['value'],
+                (int)$row['id']
+            );
+        } catch (\Exception $error) {
+            return null;
+        }
+    }
 }
