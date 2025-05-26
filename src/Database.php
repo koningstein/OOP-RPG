@@ -43,13 +43,6 @@ interface Database
     public function delete(string $table, array $conditions): int;
 
     /**
-     * Gets the ID of the last inserted record
-     *
-     * @return int The last insert ID
-     */
-    public function getLastInsertId(): int;
-
-    /**
      * Tests if the database connection is working
      *
      * @return bool True if connection is working, false otherwise
