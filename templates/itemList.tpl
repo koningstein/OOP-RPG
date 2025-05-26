@@ -93,12 +93,38 @@
                     <tbody>
                     {foreach from=$items item=item}
                         <tr>
-                            <td>{$item->getId()}</td>
-                            <td>{$item->getName()}</td>
-                            <td>{$item->getType()}</td>
-                            <td>{$item->getValue()} gold</td>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Value</th>
+                            <th>Effects</th>
                         </tr>
-                    {/foreach}
+                    </thead>
+                    <tbody>
+                        {foreach from=$items item=item}
+                            <tr>
+                                <td>{$item->getId()}</td>
+                                <td>{$item->getName()}</td>
+                                <td>{$item->getType()}</td>
+                                <td>{$item->getValue()} gold</td>
+                                <td>
+                                    {if $item->getType() == 'weapon'}
+                                        {if $item->getAttackBonus() > 0}Attack +{$item->getAttackBonus()}{/if}
+                                        {if $item->getDefenceBonus() > 0}, Defense +{$item->getDefenceBonus()}{/if}
+                                    {elseif $item->getType() == 'armor'}
+                                        {if $item->getDefenceBonus() > 0}Defense +{$item->getDefenceBonus()}{/if}
+                                        {if $item->getAttackBonus() > 0}, Attack +{$item->getAttackBonus()}{/if}
+                                    {elseif $item->getType() == 'consumable'}
+                                        {if $item->getAttackBonus() > 0}Attack +{$item->getAttackBonus()}{/if}
+                                        {if $item->getDefenceBonus() > 0}, Defense +{$item->getDefenceBonus()}{/if}
+                                        {if $item->getHealthBonus() > 0}, Health +{$item->getHealthBonus()}{/if}
+                                        {if $item->getSpecialEffect() != ''}, Special: {$item->getSpecialEffect()}{/if}
+                                    {elseif $item->getType() == 'misc'}
+                                        Mystery Item ?
+                                    {/if}
+                                </td>
+                            </tr>
+                        {/foreach}
                     </tbody>
                 </table>
                 <p class="mt-3">Total items displayed: <strong>{$itemCount|default:count($items)}</strong></p>
