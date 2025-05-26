@@ -88,6 +88,7 @@
                         <th>Name</th>
                         <th>Type</th>
                         <th>Value</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -97,6 +98,9 @@
                             <td>{$item->getName()}</td>
                             <td>{$item->getType()}</td>
                             <td>{$item->getValue()} gold</td>
+                            <td>
+                                <a href="index.php?page=updateItem&id={$item->getId()}" class="btn btn-sm btn-primary">Edit</a>
+                            </td>
                         </tr>
                     {/foreach}
                     </tbody>

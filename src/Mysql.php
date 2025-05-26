@@ -165,7 +165,51 @@ class Mysql implements Database
     public function update(string $table, array $data, array $conditions): int
     {
         // TODO: Implement update() method.
-        throw new Exception('Not implemented yet');
+        try {
+            // Controleer of er een ID is meegegeven in de conditions
+            if (!isset($conditions['id'])) {
+                throw new Exception("ID is required for update operations");
+            }
+
+            // Bouw de SET clause
+            $setClause = [];
+            $paramCounter = 0;
+            foreach ($data as $column => $value) {
+                $placeholder = "set_param{$paramCounter}";
+                $setClause[] = "{$column} = :{$placeholder}";
+                $paramCounter++;
+            }
+            $setClauseString = implode(', ', $setClause);
+
+            // Bouw de WHERE clause (alleen op ID)
+            $whereClause = "id = :where_id";
+
+            // Bouw de complete query
+            $sql = "UPDATE {$table} SET {$setClauseString} WHERE {$whereClause}";
+
+            // Prepare de statement
+            $statement = $this->connection->prepare($sql);
+
+            // Bind de SET parameters
+            $paramCounter = 0;
+            foreach ($data as $column => $value) {
+                $placeholder = "set_param{$paramCounter}";
+                $statement->bindValue(":{$placeholder}", $value);
+                $paramCounter++;
+            }
+
+            // Bind de WHERE parameter
+            $statement->bindValue(':where_id', $conditions['id']);
+
+            // Voer de query uit
+            $statement->execute();
+
+            // Return het aantal affected rows
+            return $statement->rowCount();
+
+        } catch(PDOException $error) {
+            throw new Exception("Update failed: " . $error->getMessage());
+        }
     }
 
     /**

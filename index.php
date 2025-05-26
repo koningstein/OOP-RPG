@@ -274,6 +274,43 @@ switch($page)
             $template->display('error.tpl');
         }
         break;
+    case 'updateItem':
+        if (!empty($_GET['id'])) {
+            $itemId = (int)$_GET['id'];
+            $item = Item::loadFromDatabase($itemId);
+
+            if ($item !== null) {
+                $template->assign('item', $item);
+                $template->display('updateItemForm.tpl');
+            } else {
+                $template->assign('error', "Item not found.");
+                $template->display('error.tpl');
+            }
+        } else {
+            $template->assign('error', "No item ID provided.");
+            $template->display('error.tpl');
+        }
+        break;
+    case 'saveItemUpdate':
+        if (!empty($_POST['name']) && !empty($_POST['type']) && !empty($_POST['value']) && !empty($_POST['id'])) {
+            $item = new Item(
+                $_POST['name'],
+                $_POST['type'],
+                (float)$_POST['value'],
+                (int)$_POST['id']
+            );
+            if ($item->update()) {
+                $template->assign('item', $item);
+                $template->display('itemUpdated.tpl');
+            } else {
+                $template->assign('error', "Unable to update item.");
+                $template->display('error.tpl');
+            }
+        } else {
+            $template->assign('error', "Missing required fields for update.");
+            $template->display('error.tpl');
+        }
+        break;
     default:
         $template->display('home.tpl');
 }
