@@ -231,7 +231,34 @@ switch($page)
         break;
     case 'listItems':
         $itemList = new ItemList();
-        $itemList->loadAllFromDatabase();
+        $params =[];
+        if(!empty($_POST['id']))
+        {
+            $params['id'] = (int)$_POST['id'];  // id = :param
+            $template->assign('selectedId', $_POST['id']);
+        }
+        if(!empty($_POST['type']))
+        {
+            $params['type'] = $_POST['type']; // type = :param
+            $template->assign('selectedType', $_POST['type']);
+        }
+        if(isset($_POST['minValue']) && is_numeric($_POST['minValue'])){
+            $params['minValue'] = (int)$_POST['minValue'];
+            $template->assign('minValue', $_POST['minValue']);
+        }
+        if(!empty($_POST['name']))
+        {
+            $params['name'] = $_POST['name'];
+            $template->assign('searchName', $_POST['name']);
+        }
+
+        if(!empty($params))
+        {
+            $itemList->loadByParams($params);
+        }else{
+            $itemList->loadAllFromDatabase();
+        }
+
         $template->assign('items', $itemList->getItems());
         $template->assign('count', $itemList->count());
         $template->display('itemList.tpl');
