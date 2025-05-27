@@ -211,6 +211,10 @@ class Item
                 $row['name'],
                 $row['type'],
                 (float)$row['value'],
+                (int)$row['attack_bonus'],
+                (int)$row['defense_bonus'],
+                (int)$row['health_bonus'],
+                $row['special_effect'],
                 (int)$row['id']
             );
         } catch (\Exception $error) {

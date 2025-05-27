@@ -311,10 +311,28 @@ switch($page)
         break;
     case 'saveItemUpdate':
         if (!empty($_POST['name']) && !empty($_POST['type']) && !empty($_POST['value']) && !empty($_POST['id'])) {
+            $attackBonus = 0;
+            $defenseBonus = 0;
+            $healthBonus = 0;
+            $specialEffect = "";
+
+            // Type-specifieke waarden (zelfde logica als bij create)
+            if ($_POST['type'] === 'weapon' || $_POST['type'] === 'armor') {
+                $attackBonus = (int)($_POST['attackBonus'] ?? 0);
+                $defenseBonus = (int)($_POST['defenseBonus'] ?? 0);
+            } elseif ($_POST['type'] === 'consumable') {
+                $healthBonus = (int)($_POST['healthBonus'] ?? 0);
+                $specialEffect = $_POST['specialEffect'] ?? "";
+            }
+
             $item = new Item(
                 $_POST['name'],
                 $_POST['type'],
                 (float)$_POST['value'],
+                $attackBonus,
+                $defenseBonus,
+                $healthBonus,
+                $specialEffect,
                 (int)$_POST['id']
             );
             if ($item->update()) {

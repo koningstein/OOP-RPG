@@ -40,7 +40,7 @@
                             <label for="defenseBonus" class="form-label">
                                 {if $item->getType() == 'consumable'}Temporary Defense Boost{else}Defense Bonus{/if}
                             </label>
-                            <input type="number" class="form-control" name="defenseBonus" value="{$item->getDefenseBonus()}" min="0">
+                            <input type="number" class="form-control" name="defenseBonus" value="{$item->getDefenceBonus()}" min="0">
                         </div>
                     {/if}
 
