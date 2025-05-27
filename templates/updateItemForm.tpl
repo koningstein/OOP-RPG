@@ -29,6 +29,38 @@
                         <input type="number" class="form-control" id="value" name="value" step="0.01" min="0" value="{$item->getValue()}" required>
                     </div>
 
+                    {if $item->getType() == 'weapon' || $item->getType() == 'armor' || $item->getType() == 'consumable'}
+                        <div class="mb-3">
+                            <label for="attackBonus" class="form-label">
+                                {if $item->getType() == 'consumable'}Temporary Attack Boost{else}Attack Bonus{/if}
+                            </label>
+                            <input type="number" class="form-control" name="attackBonus" value="{$item->getAttackBonus()}" min="0">
+                        </div>
+                        <div class="mb-3">
+                            <label for="defenseBonus" class="form-label">
+                                {if $item->getType() == 'consumable'}Temporary Defense Boost{else}Defense Bonus{/if}
+                            </label>
+                            <input type="number" class="form-control" name="defenseBonus" value="{$item->getDefenceBonus()}" min="0">
+                        </div>
+                    {/if}
+
+                    {if $item->getType() == 'consumable'}
+                        <div class="mb-3">
+                            <label for="healthBonus" class="form-label">Health Bonus</label>
+                            <input type="number" class="form-control" name="healthBonus" value="{$item->getHealthBonus()}" min="0">
+                        </div>
+                        <div class="mb-3">
+                            <label for="specialEffect" class="form-label">Special Effect</label>
+                            <input type="text" class="form-control" name="specialEffect" value="{$item->getSpecialEffect()}">
+                        </div>
+                    {/if}
+
+                    {if $item->getType() == 'misc'}
+                        <div class="alert alert-warning">
+                            <strong>Mystery Item:</strong> Effects are random and cannot be edited. Only name, type and value can be changed.
+                        </div>
+                    {/if}
+
                     <button type="submit" class="btn btn-primary">Update Item</button>
                     <a href="index.php?page=listItems" class="btn btn-secondary">Cancel</a>
                 </form>

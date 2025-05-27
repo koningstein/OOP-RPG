@@ -1,16 +1,12 @@
 {extends file='layout.tpl'}
 {block name="content"}
-    <div class="container mt-5">
-        <!-- Error Alert -->
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Error!</h4>
-            <p>{$error}</p>
-        </div>
+    <h1>Error</h1>
 
-        <!-- Navigation Buttons -->
-        <div class="mt-3">
-            <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
-            <a href="index.php" class="btn btn-primary">Back to Home</a>
-        </div>
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> {$error|escape}
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        <a href="index.php" class="btn btn-secondary">Back to Home</a>
     </div>
 {/block}
