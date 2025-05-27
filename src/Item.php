@@ -239,7 +239,7 @@ class Item
                 return false;
             }
             // Roep delete() aan met conditions array voor ID
-            $affectedRows = $database->delete('items', ['id' => $this->id]);
+            $affectedRows = $database->delete('item', ['id' => $this->id]);
             // Return true bij succes (affected rows > 0), false bij falen
             return $affectedRows > 0;
         } catch (\Exception $e) {

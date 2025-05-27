@@ -367,6 +367,8 @@ switch($page)
         if (!empty($_POST['id'])) {
             $itemId = (int)$_POST['id'];
             $item = Item::loadFromDatabase($itemId);
+
+            var_dump($item);
             if ($item !== null) {
                 if ($item->delete()) {
                     $template->assign('item', $item);
