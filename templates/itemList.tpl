@@ -117,10 +117,11 @@
                                 </td>
                                 <td>
                                     <a href="index.php?page=updateItem&id={$item->getId()}" class="btn btn-sm btn-primary">Edit</a>
+                                    <a href="index.php?page=deleteItem&id={$item->getId()}" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
                         {/foreach}
-                                <a href="index.php?page=deleteItem&id={$item->getId()}" class="btn btn-sm btn-danger">Delete</a>
+
                     </tbody>
                 </table>
                 <p class="mt-3">Total items displayed: <strong>{$itemCount|default:count($items)}</strong></p>
